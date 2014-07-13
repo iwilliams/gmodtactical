@@ -1,0 +1,12 @@
+"cc"
+{
+	"base"		"base"
+	"title"		"CC"
+	"maps"		"^cc_"
+	"menusystem"	"1"
+
+	"settings"
+	{
+		// TODO: put some settings here
+	}
+}

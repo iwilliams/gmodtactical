@@ -1,0 +1,13 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_models/Twinke.HK417/sight_diffuse"
+	"$bumpmap" "models/weapons/v_models/Twinke.HK417/sight_normal"
+"$surfaceprop" "Metal"
+	                "$phong" "1"
+                "$phongboost" ".25"
+                "$phongfresnelranges" "[1 8 6]"
+"$phongexponenttexture" "Models\Weapons\v_models/Twinke.HK417/sight_specular"
+
+                              "$phongalbedotint" "1"
+                "$halflambert" "1"
+}

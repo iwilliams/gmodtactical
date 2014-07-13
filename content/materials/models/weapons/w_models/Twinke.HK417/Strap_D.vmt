@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_models/Twinke.HK417/Strap_D"
+	"$bumpmap" "models/weapons/v_models/Twinke.HK417/Strap_N"
+}

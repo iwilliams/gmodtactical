@@ -1,0 +1,5 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_models/Twinke.HK417/sight_diffuse"
+	"$bumpmap" "models/weapons/v_models/Twinke.HK417/sight_normal"
+}

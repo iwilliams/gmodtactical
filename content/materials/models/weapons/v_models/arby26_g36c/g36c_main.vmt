@@ -1,0 +1,20 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models\weapons\v_models\arby26_g36c\g36c_d"
+	"$bumpmap" 	"models\weapons\v_models\arby26_g36c\g36c_n"
+	"$phongexponenttexture" "models\v_models\weapons\arby26_g36c\g36c_gloss"
+	"$halflambert" "0"
+	"$phong" "1"
+	"$phongboost" "1.5"
+	"$phongexponent" "150"
+	"$phongtint" "[.65 .65 1]"
+	"$phongalbedotint" "1"
+	"$phongfresnelranges" "[2.0 0.5 0.05]"
+
+	"$rimlight" "1"
+	"$rimlightexponent" "30"
+	"$rimlightboost" "1"
+
+	"$ambientocclusion" "1"
+	"$diffuseexp" "1.5"
+}

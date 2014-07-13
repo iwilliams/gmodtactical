@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models\weapons\v_models\arby26_g36c\g36c_d"
+	"$bumpmap" 	"models\weapons\v_models\arby26_g36c\g36c_n"
+}

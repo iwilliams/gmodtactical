@@ -1,0 +1,13 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/weapons/v_models/Twinke.HK417/lens_D"
+	"$bumpmap" "models/weapons/v_models/Twinke.HK417/Lens_N"
+"$surfaceprop" "Metal"
+	                "$phong" "1"
+                "$phongboost" ".25"
+                "$phongfresnelranges" "[1 8 6]"
+"$phongexponenttexture" "Models\Weapons\v_models/Twinke.HK417/Lens_S"
+
+                              "$phongalbedotint" "1"
+                "$halflambert" "1"
+}
