@@ -1,21 +1,28 @@
-DEFINE_BASECLASS( "player_default" )
+AddCSLuaFile()
+DEFINE_BASECLASS( "player_cc_base" )
 
-local PLAYER = {} 
-
-
+local PLAYER = {}
 --
 -- See gamemodes/base/player_class/player_default.lua for all overridable variables
 --
-PLAYER.WalkSpeed = 200
-PLAYER.RunSpeed	= 400
+PLAYER.WalkSpeed 			= 200
+PLAYER.RunSpeed				= 400
 
-function PLAYER:PlayerLoadout()
+local loadout = {"weapon_stunstick", "weapon_cc_hk416_EX", "weapon_cc_ak47_EX", "weapon_cc_ak47", "weapon_cc_hk416"}
 
-	self.Player:GiveAmmo( 256, "Smg1", true)
-	self.Player:Give('weapon_smg1')
-	self.Player:Give('weapon_pistol')
-	self.Player:CrosshairDisable()
+local playerModels = {
+	"models/player/urban.mdl",
+	"models/player/gasmask.mdl",
+	"models/player/riot.mdl",
+	"models/player/swat.mdl",
+	"models/player/Combine_Soldier.mdl",
+	"models/player/Combine_Soldier_PrisonGuard.mdl",
+	"models/player/barney.mdl"
+}
 
+function PLAYER:Init() 
+	self:setLoadout(loadout)
+	self:setModels(playerModels)
 end
 
-player_manager.RegisterClass( "player_operator", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_operator", PLAYER, "player_cc_base" )

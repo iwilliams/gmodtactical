@@ -15,7 +15,7 @@ function ply:SetGamemodeTeam( n )
 end
 
 function GM:PlayerConnect(name, ip)
-
+	
 end
 
 teams = 1
@@ -25,9 +25,4 @@ function GM:PlayerInitialSpawn(ply)
 	teams = (teams + 1)%2
 end
 
--- function GM:PlayerLoadout(ply) 
--- 	player_manager.RunClass( ply, "Loadout" )
--- end
--- function GM:PlayerSetModel(ply)
--- 	player_manager.RunClass( ply, "SetModel" )
--- end
+

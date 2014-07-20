@@ -1,5 +1,6 @@
-include( "player_operator.lua")
-include( "player_uprising.lua")
+include( "player_class/player_cc_base.lua")
+include( "player_class/player_operator.lua")
+include( "player_class/player_uprising.lua")
 
 GM.NAME = "CC"
 GM.Author = "Ian Williams"
