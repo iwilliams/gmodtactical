@@ -66,7 +66,7 @@ SWEP.Slot					= 2
 SWEP.ViewModel				= "models/weapons/v_smg_mp5.mdl"
 SWEP.WorldModel				= "models/weapons/w_smg_mp5.mdl"
 -- SWEP.ViewModelAimPos		= Vector (2.5364, -1.8409, 1.745) --Original
-SWEP.ViewModelAimPos		= Vector (2.5364, -1.8409, 1.745)
+SWEP.ViewModelAimPos		= Vector (200.5364, -1.8409, 1.745)
 SWEP.ZoomTime				= 0.2
 
 SWEP.ViewModelFlip			= true
@@ -463,7 +463,7 @@ function SWEP:GetViewModelPosition( pos, ang )
 	
 	if ( self.IronSightsAng ) then
 		ang = ang * 1
-		ang:RotateAroundAxis( ang:Right(), 		self.IronSightsAng.x * Mul)
+		ang:RotateAroundAxis( ang:Right(), 		self.IronSightsAng.x * Mul )
 		ang:RotateAroundAxis( ang:Up(), 		self.IronSightsAng.y * Mul )
 		ang:RotateAroundAxis( ang:Forward(), 	self.IronSightsAng.z * Mul )
 	end
@@ -472,7 +472,7 @@ function SWEP:GetViewModelPosition( pos, ang )
 	local Up 		= ang:Up()
 	local Forward 	= ang:Forward()
 	
-	pos = pos + Offset.y * Forward * Mul
+	pos = pos + Offset.x * Right * Mul
 	pos = pos + Offset.y * Forward * Mul
 	pos = pos + Offset.z * Up * Mul
 
