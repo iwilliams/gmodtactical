@@ -8,7 +8,7 @@ local PLAYER = {}
 PLAYER.WalkSpeed 			= 200
 PLAYER.RunSpeed				= 400
 
-local loadout = {"weapon_stunstick", "weapon_cc_hk416_EX", "weapon_cc_ak47_EX", "weapon_cc_ak47", "weapon_cc_hk416"}
+local loadout = {"weapon_stunstick", "weapon_cc_hk416_EX", "pspak_fn_fal_ex", "pspak_hk_g36c_ex", "pspak_m4a1_ex", "pspak_irq_ak47_ex", "pspak_sg_552_ex", "pspak_pp_bizon_ex", "pspak_hk_416_ex"}
 
 local playerModels = {
 	"models/player/urban.mdl",

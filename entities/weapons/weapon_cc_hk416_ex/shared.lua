@@ -23,7 +23,7 @@ SWEP.ViewModelFlip			= false
 SWEP.DrawAmmo				= false
 SWEP.DrawCrosshair			= false
 
--- SWEP.Primary.Sound			= Sound ("Weapon_AK47.Single")
+-- SWEP.Primary.Sound			= Sound("gunshot_fn_fal")
 -- SWEP.Primary.BullettimeSound		= Sound ("weapons/ak47/ak47-1.wav")
 SWEP.Primary.BullettimeSoundPitch	= 70
 SWEP.Primary.Damage			= 75

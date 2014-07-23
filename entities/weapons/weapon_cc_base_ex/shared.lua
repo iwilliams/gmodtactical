@@ -69,7 +69,7 @@ SWEP.WorldModel				= "models/weapons/w_smg_mp5.mdl"
 SWEP.ViewModelAimPos		= Vector (200.5364, -1.8409, 1.745)
 SWEP.ZoomTime				= 0.2
 
-SWEP.ViewModelFlip			= true
+SWEP.ViewModelFlip			= false
 SWEP.ViewModelFOV			= 65
 SWEP.CSMuzzleFlashes		= true
 
