@@ -1,0 +1,8 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models\weapons\v_models\EVANTSSG552\Body"
+	"$bumpmap" "models\weapons\v_models\EVANTSSG552\Body_bump"
+	"$normalmapalphaenvmapmask" 1
+
+}
+

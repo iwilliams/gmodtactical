@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" 			"models\weapons\v_models\HK416\Twinke.HK416\9"
+	"$bumpmap"			"models\weapons\v_models\HK416\Twinke.HK416\9_norm"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.1 .1 .1]"
+	"$envmapcontrast" .7
+	"$phong" 1
+	"$phongboost" 6
+	"$phongfresnelranges" "[.2 1 0]"
+	"$phongalbedotint" 1
+}

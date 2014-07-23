@@ -1,0 +1,11 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models\weapons\v_models\EVANTSSG552\Synth"
+	"$bumpmap" "models\weapons\v_models\EVANTSSG552\Synth_bump"
+	"$phong" "1"
+	"$phongexponent" "45"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1 8 6]"
+
+}
+

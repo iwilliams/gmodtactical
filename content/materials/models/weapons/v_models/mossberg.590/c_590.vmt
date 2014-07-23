@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+"$baseTexture" "models\weapons\v_models\Mossberg.590\c_590"
+"$bumpmap" "models\weapons\v_models\Mossberg.590\c_590_n"
+"$halflambert" 	"1"
+"$phong" "1"
+"$phongexponent" "45"
+"$phongboost" "1"
+"$phongfresnelranges"	"[1 6 12]"
+"$phongalbedotint" "1"
+}
+

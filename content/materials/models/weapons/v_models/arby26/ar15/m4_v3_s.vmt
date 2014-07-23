@@ -1,0 +1,15 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "models\weapons\v_models\arby26\ar15\m4_v3_s"
+	"$bumpmap" "models\weapons\v_models\arby26\ar15\m4_v3_n"
+	//"$phongexponenttexture"	"models\weapons\v_models\arby26\ar15\base_m4_v3_exp"
+	"$envmapfresnel" 			"1"
+	"$envmapFresnelMinMaxExp"		"[10 40 .1]"
+	"$envmaptint"   			"[.02 .02 .02]"
+	"$normalmapalphaenvmapmask" 	"1"
+ 	"$phong" 			"1"
+	"$phongexponent"		 	"24"
+	"$phongboost" 			"1"
+	"$phongfresnelranges"		"[.03 .6 .6]"
+	"$phongalbedotint" 			"1"
+}

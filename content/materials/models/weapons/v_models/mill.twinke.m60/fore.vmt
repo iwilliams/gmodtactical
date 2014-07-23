@@ -1,0 +1,8 @@
+"VertexlitGeneric"
+{
+"$basetexture" "models\weapons\v_models\Mill.Twinke.M60\fore"
+"$alphatest" "1"
+"$translucent" "1"
+"$envmapmask" "models\weapons\v_models\Mill.Twinke.M60\fore_ref"
+}
+

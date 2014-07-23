@@ -1,0 +1,14 @@
+VertexLitGeneric
+{
+	"$basetexture"	"models\weapons\v_models\Colt M4 R.I.S\gucci"
+	"$bumpmap" 	"models\weapons\v_models\Colt M4 R.I.S\gucci_normal"
+	"$envmapfresnel" 			"1"
+	"$envmapFresnelMinMaxExp"		"[10 40 .1]"
+	"$envmaptint"   			"[.02 .02 .02]"
+	"$normalmapalphaenvmapmask" 	"1"
+ 	"$phong" 			"1"
+	"$phongexponent"		 	"32"
+	"$phongboost" 			"1"
+	"$phongfresnelranges"		"[.06 .7 .6]"
+	"$phongalbedotint" 			"1"
+}

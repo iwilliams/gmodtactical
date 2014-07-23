@@ -1,0 +1,5 @@
+VertexLitGeneric
+{
+	"$baseTexture" "models\weapons\v_models\twinke.xm1014\shell"
+	"$envmapmask" "models\weapons\v_models\twinke.xm1014\shell_ref"
+}

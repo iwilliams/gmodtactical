@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models\weapons\v_models\HK416\att\Red"
+	"$normalmapalphaenvmapmask"  "1"
+                "$envmaptint" "[0.8 0.5 0.2]"
+                "$additive" "1" 
+                "$translucent" "1"
+                "$surfaceprop" "glass"
+}
+
+

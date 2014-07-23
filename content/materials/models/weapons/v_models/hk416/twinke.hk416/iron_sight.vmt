@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" 			"models\weapons\v_models\HK416\Twinke.HK416\10"
+	"$bumpmap"			"models\weapons\v_models\HK416\Twinke.HK416\10_norm"
+	"$no_draw" 1	
+}

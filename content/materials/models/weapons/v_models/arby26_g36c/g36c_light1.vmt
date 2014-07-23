@@ -1,0 +1,23 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\v_models\arby26_g36c\m4_light1_d"
+	"$halflambert" "0"
+	"$no_draw" 1
+
+	"$BASEMAPLUMINANCEPHONGMASK" "1"
+	"$phong" "1"
+	"$phongboost" "14.0"
+	"$phongexponent" "16"
+	"$phongtint" "[.85 .85 1]"
+	"$phongalbedotint" "1"
+	"$phongfresnelranges" "[.1 0.6 2]"
+
+	"$ambientocclusion" "1"
+}
+
+
+	
+
+
+
+

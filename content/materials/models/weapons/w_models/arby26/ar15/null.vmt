@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture"	"models\weapons\v_models\M4_AR15\null"
+        "$alphatest" "1" "$translucent" "1"
+
+}

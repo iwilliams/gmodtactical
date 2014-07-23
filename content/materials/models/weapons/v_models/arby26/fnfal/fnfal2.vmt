@@ -1,0 +1,23 @@
+VertexLitGeneric
+{
+	"$basetexture"	"models\weapons\v_models\arby26\fnfal\fnfal2_d"
+	"$bumpmap"	"models\weapons\v_models\arby26\fnfal\fnfal2_ns"
+	"$phongexponenttexture"	"models\weapons\v_models\arby26\fnfal\fnfal2_g"
+	$phong 1
+	$phongboost 9.0
+	$phongfresnelranges "[0.63 3 6.5]"
+//	$halflambert "1"
+	$phongalbedotint "1"
+
+	$rimlight 1
+    $rimlightexponent 180
+//    $rimexponent 180
+    $rimlightboost 0.5
+//    $rimboost 10
+	
+	$normalmapalphaenvmapmask 1
+	$envmaptint "[0.25 0.35 0.5]"
+
+//	"$envmapmask" "models\weapons\v_models\rif_fnfal_arby26\fnfal_s"
+
+}

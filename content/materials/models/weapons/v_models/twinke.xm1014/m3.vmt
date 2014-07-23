@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\v_models\twinke.xm1014\m3_stainless"
+	"$envmapmask" "models\weapons\v_models\twinke.xm1014\m3_stainless_ref"
+}
+
+
