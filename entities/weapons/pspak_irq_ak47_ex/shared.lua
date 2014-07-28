@@ -45,6 +45,6 @@ SWEP.Secondary.Automatic	= false
 SWEP.Secondary.Ammo			= "none"
 
 						-- (x, z (-towards +away), y)
-SWEP.IronSightsPos = Vector (-2.9, -1, .5)
+SWEP.IronSightsPos = Vector (-1.95, -1, .585)
 						-- (?, ? (twist +left +right))
 SWEP.IronSightsAng = Vector (0, 0, 0)

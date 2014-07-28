@@ -14,7 +14,7 @@ SWEP.IconLetter				= "b"
 
 SWEP.ViewModel				= "models/weapons/v_arh_m4a1.mdl"	-- Weapon view model
 SWEP.WorldModel				= "models/weapons/w_arh_m4a1.mdl"	-- Weapon world model
-SWEP.ViewModelAimPos		= Vector (4.1774, -2.0709, 2.355) -- ORIGINAL
+SWEP.ViewModelAimPos		= Vector (-4.1774, -2.0709, 2.355) -- ORIGINAL
 SWEP.ViewModelAimPos		= Vector (40.1774, -2.0709, 2.355)
 --SWEP.ViewModelAimPos		= Vector (6.0774, 0, 1.9644) -- real ironsights; totally does not work
 --SWEP.ViewModelAimAng		= Vector (2.8406, -0.0088, -0.4718)

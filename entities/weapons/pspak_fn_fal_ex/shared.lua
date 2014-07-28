@@ -15,7 +15,7 @@ SWEP.IconLetter				= "b"
 SWEP.ViewModel				= "models/weapons/v_rif_fnfal.mdl"	-- Weapon view model
 SWEP.WorldModel				= "models/weapons/w_rif_fnfal.mdl"	-- Weapon world model
 SWEP.ViewModelAimPos		= Vector (4.1774, -2.0709, 2.355) -- ORIGINAL
-SWEP.ViewModelAimPos		= Vector (40.1774, -2.0709, 2.355)
+--SWEP.ViewModelAimPos		= Vector (40.1774, -2.0709, 2.355)
 --SWEP.ViewModelAimPos		= Vector (6.0774, 0, 1.9644) -- real ironsights; totally does not work
 --SWEP.ViewModelAimAng		= Vector (2.8406, -0.0088, -0.4718)
 SWEP.ViewModelFlip			= false
@@ -45,6 +45,6 @@ SWEP.Secondary.Automatic	= false
 SWEP.Secondary.Ammo			= "none"
 
 						-- (x, z (-towards +away), y)
-SWEP.IronSightsPos = Vector (-2.9, -1, .5)
+SWEP.IronSightsPos = Vector (-3.874, -2, 1)
 						-- (?, ? (twist +left +right))
 SWEP.IronSightsAng = Vector (0, 0, 0)

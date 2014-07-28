@@ -66,7 +66,7 @@ SWEP.Slot					= 2
 SWEP.ViewModel				= "models/weapons/v_smg_mp5.mdl"
 SWEP.WorldModel				= "models/weapons/w_smg_mp5.mdl"
 -- SWEP.ViewModelAimPos		= Vector (2.5364, -1.8409, 1.745) --Original
-SWEP.ViewModelAimPos		= Vector (200.5364, -1.8409, 1.745)
+--SWEP.ViewModelAimPos		= Vector (200.5364, -1.8409, 1.745)
 SWEP.ZoomTime				= 0.2
 
 SWEP.ViewModelFlip			= false
