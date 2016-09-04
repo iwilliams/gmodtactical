@@ -9,11 +9,7 @@ PLAYER.WalkSpeed 			= 200
 PLAYER.RunSpeed				= 400
 
 local loadout = {
-    "weapon_stunstick",
-    "m9k_481",
-    "weapon_cc_ak47_EX",
-    "weapon_cc_ak47",
-    "weapon_cc_hk416"
+    "m9k_m4a1"
 }
 
 local playerModels = {
@@ -23,7 +19,21 @@ local playerModels = {
 	"models/player/swat.mdl",
 	"models/player/Combine_Soldier.mdl",
 	"models/player/Combine_Soldier_PrisonGuard.mdl",
-	"models/player/barney.mdl"
+	"models/player/barney.mdl",
+	"models/player/Group03/Male_01.mdl",
+	"models/player/Group03/Male_02.mdl",
+	"models/player/Group03/Male_03.mdl",
+	"models/player/Group03/Male_04.mdl",
+	"models/player/Group03/Male_05.mdl",
+	"models/player/Group03/Male_06.mdl",
+	"models/player/Group03/Male_07.mdl",
+	"models/player/Group03/Male_08.mdl",
+	"models/player/Group03/Male_09.mdl",
+	"models/player/Group03/Female_01.mdl",
+	"models/player/Group03/Female_02.mdl",
+	"models/player/Group03/Female_03.mdl",
+	"models/player/Group03/Female_04.mdl",
+	"models/player/Group03/Female_06.mdl"
 }
 
 function PLAYER:Init()
@@ -31,4 +41,4 @@ function PLAYER:Init()
 	self:setModels(playerModels)
 end
 
-player_manager.RegisterClass( "player_operator", PLAYER, "player_cc_base" )
+player_manager.RegisterClass( "player_operator", PLAYER, "player_gmt_base" )

@@ -1,6 +1,6 @@
 "gmodtactical"
 {
-	"base"		"base"
+	"base"		"sandbox"
 	"title"		"GMOD Tactical"
 	"maps"		"^gmt_"
 	"menusystem"	"1"

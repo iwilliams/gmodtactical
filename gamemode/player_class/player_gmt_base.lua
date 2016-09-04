@@ -8,7 +8,7 @@ local PLAYER = {}
 PLAYER.WalkSpeed 			= 100
 PLAYER.RunSpeed				= 150
 
-local loadout = {"weapon_crowbar", "weapon_cc_hk416", "weapon_cc_ak47", "weapon_cc_hk416_ex"}
+local loadout = {}
 local playerModels = {}
 
 -- Function so set loadout
@@ -16,12 +16,12 @@ function PLAYER:setLoadout(load)
 	loadout = load
 end
 
--- Function to set playerModels 
+-- Function to set playerModels
 function PLAYER:setModels(models)
 	playerModels = models
 end
 
-function PLAYER:Init() 
+function PLAYER:Init()
 	self:setLoadout(loadout)
 	self:setModels(playerModels)
 end
@@ -35,7 +35,7 @@ end
 
 function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
-	for k, weapon in pairs(loadout) do 
+	for k, weapon in pairs(loadout) do
 		self.Player:Give(weapon)
 	end
 	-- self.Player:CrosshairDisable()
@@ -47,4 +47,4 @@ function PLAYER:SetModel()
 	self.Player:SetModel(playerModels[randomIndex])
 end
 
-player_manager.RegisterClass( "player_cc_base", PLAYER, "player_default" )
+player_manager.RegisterClass( "player_gmt_base", PLAYER, "player_default" )

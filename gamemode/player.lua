@@ -5,17 +5,12 @@ function ply:SetGamemodeTeam( n )
 
 	self:SetTeam(n)
 
-	if n == 0 then 
-		player_manager.SetPlayerClass(self, "player_operator" )
-	elseif n == 1 then 
-		player_manager.SetPlayerClass(self, "player_uprising" ) 
-	end
+    player_manager.SetPlayerClass(self, "player_operator" )
 
 	return true
 end
 
 function GM:PlayerConnect(name, ip)
-	
 end
 
 teams = 1
