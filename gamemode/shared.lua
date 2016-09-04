@@ -1,18 +1,8 @@
-include( "player_class/player_cc_base.lua")
+GM.NAME = "GMOD Tactical"
+GM.Author = "iwilliams"
+GM.Email = "ian@iwillia.ms"
+GM.Website = "iwillia.ms"
+
+-- Include player class info
+include( "player_class/player_gmt_base.lua")
 include( "player_class/player_operator.lua")
-include( "player_class/player_uprising.lua")
-
-GM.NAME = "CC"
-GM.Author = "Ian Williams"
-GM.Email = "N/A"
-GM.Website = "N/A"
-
-function GM:CreateTeams()
-	team.SetUp(0, "Operators", Color(0, 0, 0))
-	team.SetUp(1, "Uprising", Color(255, 255, 255))
-end
-
-
-function GM:Initialize()
-	self.BaseClass.Initialize(self)
-end

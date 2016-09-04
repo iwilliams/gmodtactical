@@ -1,5 +1,5 @@
 AddCSLuaFile()
-DEFINE_BASECLASS( "player_cc_base" )
+DEFINE_BASECLASS( "player_gmt_base" )
 
 local PLAYER = {}
 --
@@ -8,7 +8,13 @@ local PLAYER = {}
 PLAYER.WalkSpeed 			= 200
 PLAYER.RunSpeed				= 400
 
-local loadout = {"weapon_stunstick", "weapon_cc_hk416_EX", "weapon_cc_ak47_EX", "weapon_cc_ak47", "weapon_cc_hk416"}
+local loadout = {
+    "weapon_stunstick",
+    "m9k_481",
+    "weapon_cc_ak47_EX",
+    "weapon_cc_ak47",
+    "weapon_cc_hk416"
+}
 
 local playerModels = {
 	"models/player/urban.mdl",
@@ -20,7 +26,7 @@ local playerModels = {
 	"models/player/barney.mdl"
 }
 
-function PLAYER:Init() 
+function PLAYER:Init()
 	self:setLoadout(loadout)
 	self:setModels(playerModels)
 end

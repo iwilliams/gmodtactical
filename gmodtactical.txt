@@ -2,7 +2,7 @@
 {
 	"base"		"base"
 	"title"		"GMOD Tactical"
-	"maps"		"^cc_"
+	"maps"		"^gmt_"
 	"menusystem"	"1"
 
 	"settings"
