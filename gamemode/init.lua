@@ -10,7 +10,7 @@ local tableExists = sql.TableExists('gmt_player')
 
 if not tableExists then
     sql.Begin()
-        sql.query([[
+        sql.Query([[
             CREATE TABLE IF NOT EXISTS gmt_player(
                 steamID VARCHAR(25) NOT NULL PRIMARY KEY
             )
