@@ -6,6 +6,20 @@ include("player.lua")
 
 GMT = {}
 
+function SpawnCrate()
+    local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
+    --local randomPoit = math.random( #spawnEnts )
+    local randomPoint = spawnEnts[1]
+
+    --local wep = ents.Create("m9k_m4a1")
+    local wep = ents.Create("lab_base")
+    wep:SetPos(randomPoint:GetPos())
+    wep:Spawn()
+end
+
+timer.Simple(1, SpawnCrate)
+
+
 function GMT:ClearPlayerInventory( ply )
     local steamid = ply:SteamID()
 

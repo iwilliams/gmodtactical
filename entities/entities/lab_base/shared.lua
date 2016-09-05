@@ -7,7 +7,7 @@ ENT.CanSetPrice = true
 
 -- These are variables that should be set in entities that base from this
 -- models/props_junk/wood_crate001a.mdl
-ENT.model = "models/props_junk/cardboard_box001a_gib01.mdl"
+ENT.model = "models/props_junk/wood_crate001a.mdl"
 
 --function ENT:initVars()
     ---- Implement this to set the above variables
