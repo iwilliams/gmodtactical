@@ -130,6 +130,7 @@ function initialize(config)
 
     loadMySQLModule()
 
+
     if MySQLite_config.EnableMySQL then
         connectToMySQL(MySQLite_config.Host, MySQLite_config.Username, MySQLite_config.Password, MySQLite_config.Database_name, MySQLite_config.Database_port)
     else

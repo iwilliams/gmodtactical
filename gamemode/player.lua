@@ -1,6 +1,6 @@
 local ply = FindMetaTable("Player")
 
-function ply:SetGamemodeTeam( n ) 
+function ply:SetGamemodeTeam( n )
 	if n < 0 or n > 1 then return false end
 
 	self:SetTeam(n)

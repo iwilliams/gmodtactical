@@ -9,7 +9,9 @@ PLAYER.WalkSpeed 			= 100
 PLAYER.RunSpeed				= 150
 
 local loadout = {}
-local playerModels = {}
+local playerModels = {
+	"models/player/urban.mdl"
+}
 
 -- Function so set loadout
 function PLAYER:setLoadout(load)

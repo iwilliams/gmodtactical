@@ -5,8 +5,8 @@ local PLAYER = {}
 --
 -- See gamemodes/base/player_class/player_default.lua for all overridable variables
 --
-PLAYER.WalkSpeed 			= 200
-PLAYER.RunSpeed				= 400
+PLAYER.WalkSpeed 			= 100
+PLAYER.RunSpeed				= 250
 
 local loadout = {
     "m9k_m4a1"
