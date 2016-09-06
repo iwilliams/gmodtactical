@@ -25,7 +25,7 @@ end
 function ENT:OnTakeDamage(dmg)
     self:TakePhysicsDamage(dmg)
     self:GibBreakClient( Vector(1, 1, 1) )
-
+    --self:GibBreakServer( Vector(1, 1, 1) )
     local allWeps = {}
     table.Add(allWeps, GMT.PrimaryWeapons)
     table.Add(allWeps, GMT.SecondaryWeapons)

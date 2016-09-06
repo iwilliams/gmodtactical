@@ -228,7 +228,7 @@ end
 
 function GMT:SpawnCrates()
     local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    local maxCrates = (#spawnEnts * .75)
+    local maxCrates = (#spawnEnts * .5)
 
     for i=1, maxCrates do
         GMT:SpawnCrate(spawnEnts)
@@ -462,7 +462,7 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim )
     victim:Spectate(OBS_MODE_IN_EYE)
     victim:SpectateEntity( victim:GetRagdollEntity() )
 
-    victim:ScreenFade( SCREENFADE.OUT, color_black, 5, 60 * 60 )
+    victim:ScreenFade( SCREENFADE.OUT, color_black, 5, 60 * 60 * 60)
 
     victim.hasSpawned = true
 end)

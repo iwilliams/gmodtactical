@@ -27,7 +27,7 @@ function GM:RenderScreenspaceEffects()
     local maxHealth  = player:GetMaxHealth()
     local health     = player:Health()
 
-    if health == maxHealth then return end
+    --if health == maxHealth then return end
 
     local percentage = (health/maxHealth)
 
@@ -41,7 +41,7 @@ function GM:RenderScreenspaceEffects()
         [ "$pp_colour_addr" ] = math.max(maxRed - (maxRed * percentage), 0) * 1.2,
         [ "$pp_colour_addg" ] = 0,
         [ "$pp_colour_addb" ] = 0,
-        [ "$pp_colour_brightness" ] = 0,
+        [ "$pp_colour_brightness" ] = -.07,
         [ "$pp_colour_contrast" ] = 1,
         [ "$pp_colour_colour" ] = math.max(1 * percentage, 0),
         [ "$pp_colour_mulr" ] = 0,
