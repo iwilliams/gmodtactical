@@ -27,7 +27,7 @@ function GM:RenderScreenspaceEffects()
     local maxHealth  = player:GetMaxHealth()
     local health     = player:Health()
 
-    --if health == maxHealth then return end
+    if health == maxHealth then return end
 
     local percentage = (health/maxHealth)
 
@@ -51,6 +51,7 @@ function GM:RenderScreenspaceEffects()
 
     DrawColorModify( tab )
     DrawMotionBlur( 0.4, 0.8, math.max(blur, 0) )
+    
     --DrawBloom( 0.75, 1.5, 9, 9, 1, 1, 1, 1, 1 )
 end
 
