@@ -4,20 +4,95 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 include("player.lua")
 
-GMT = {}
+function has_value (tab, val)
+    for index, value in pairs (tab) do
+        if value == val then
+            return true
+        end
+    end
 
-function SpawnCrate()
-    local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    --local randomPoit = math.random( #spawnEnts )
-    local randomPoint = spawnEnts[1]
-
-    --local wep = ents.Create("m9k_m4a1")
-    local wep = ents.Create("lab_base")
-    wep:SetPos(randomPoint:GetPos())
-    wep:Spawn()
+    return false
 end
 
-timer.Simple(1, SpawnCrate)
+
+GMT = {
+    PrimaryWeapons = {
+        "m9k_m4a1",
+        "m9k_smgp90",
+        "m9k_m416",
+        "m9k_ak47",
+        "m9k_rpg7"
+    },
+    SecondaryWeapons = {
+    }
+}
+
+hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
+    if ( ply:HasWeapon( wep:GetClass() ) ) then return true end
+
+    -- Check E button LOS
+    if ( CurTime() <= ( ply.UseWeaponSpawn or 0 ) ) then return end
+    if ( !ply:KeyDown( IN_USE ) ) then return false end
+    local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
+    if ( !trace.Entity || !trace.Entity:IsValid() || trace.Entity != wep ) then
+        return false
+    end
+
+    local newWep        = wep:GetClass()
+    local newWepType    = nil
+    if has_value(GMT.PrimaryWeapons, newWep) then
+        newWepType = "PrimaryWeapons"
+    else
+        newWepType = "SecondaryWeapons"
+    end
+    local playerWeapons = ply:GetWeapons()
+
+    for k, v in pairs( playerWeapons ) do
+        if has_value(GMT[newWepType], v:GetClass()) then
+            ply:DropWeapon( v )
+        end
+    end
+
+    timer.Simple(0, function() ply:SelectWeapon(newWep) end)
+end )
+
+local function PlayerSpawn( ply )
+    ply.UseWeaponSpawn = CurTime()
+end
+hook.Add( "PlayerSpawn", "UseWeapon", PlayerSpawn )
+
+
+
+hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talker )
+    if listener:GetPos():Distance( talker:GetPos() ) > 500 then return false end
+end )
+
+
+
+GMT.lastPoint = nil
+function GMT:SpawnCrate()
+    local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
+    --local randomPoit = math.random( #spawnEnts )
+
+    local randomPoint = table.Random(spawnEnts)
+    while not randomPoint == GMT.lastPoint do
+        randomPoint = table.Random(spawnEnts) or nil
+    end
+
+    if randomPoint then
+        local crate = ents.Create("weapon_crate")
+        crate:SetPos(randomPoint:GetPos())
+        crate:Spawn()
+
+        GMT.lastPoint = randomPoint
+    end
+end
+
+timer.Simple(1, function()
+    GMT:SpawnCrate()
+    GMT:SpawnCrate()
+    GMT:SpawnCrate()
+end)
 
 
 function GMT:ClearPlayerInventory( ply )

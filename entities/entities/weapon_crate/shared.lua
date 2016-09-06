@@ -1,9 +1,5 @@
 ENT.Type = "anim"
-ENT.Base = "base_gmodentity"
-ENT.PrintName = "Lab"
-ENT.Author = "DarkRP Developers"
-ENT.Spawnable = false
-ENT.CanSetPrice = true
+ENT.Base = "base_entity"
 
 -- These are variables that should be set in entities that base from this
 -- models/props_junk/wood_crate001a.mdl

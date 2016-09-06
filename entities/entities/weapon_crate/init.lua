@@ -28,7 +28,10 @@ function ENT:OnTakeDamage(dmg)
 
     local randomWeps = {
         "m9k_m4a1",
-        "m9k_p90"
+        "m9k_smgp90",
+        "m9k_m416",
+        "m9k_ak47",
+        "m9k_rpg7"
     }
 
     local randomWep = ents.Create(table.Random(randomWeps))
@@ -47,20 +50,6 @@ function ENT:Destruct()
     --effectdata:SetOrigin(vPoint)
     --effectdata:SetScale(1)
     --util.Effect("Explosion", effectdata)
-end
-
-function ENT:SalePrice(activator)
-    --local owner = self:Getowning_ent()
-
-    --if activator == owner then
-        --if self.allowed and type(self.allowed) == "table" and table.HasValue(self.allowed, activator:Team()) then
-            --return math.ceil(self:Getprice() * 0.8)
-        --else
-            --return math.ceil(self:Getprice() * 0.9)
-        --end
-    --else
-        --return self:Getprice()
-    --end
 end
 
 ENT.Once = false
@@ -140,5 +129,8 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
+    timer.Simple(1, function()
+        GMT:SpawnCrate()
+    end)
     --timer.Remove(self:EntIndex() .. self.itemPhrase)
 end
