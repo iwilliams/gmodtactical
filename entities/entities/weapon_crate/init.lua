@@ -26,19 +26,20 @@ function ENT:OnTakeDamage(dmg)
     self:TakePhysicsDamage(dmg)
     self:GibBreakClient( Vector(1, 1, 1) )
 
-    local randomWeps = {
-        "m9k_m4a1",
-        "m9k_smgp90",
-        "m9k_m416",
-        "m9k_ak47",
-        "m9k_rpg7"
-    }
+    local allWeps = {}
+    table.Add(allWeps, GMT.PrimaryWeapons)
+    table.Add(allWeps, GMT.SecondaryWeapons)
+    table.Add(allWeps, GMT.Items)
 
-    local randomWep = ents.Create(table.Random(randomWeps))
+    local randomWep = ents.Create(table.Random(allWeps))
     randomWep:SetPos(self:GetPos())
     randomWep:Spawn()
 
+    --timer.Simple(1, function()
+    GMT:SpawnCrate()
+    self.spawnPoint.hasCrate = false
     self:Remove()
+    --end)
 end
 
 function ENT:Destruct()
@@ -129,8 +130,5 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-    timer.Simple(1, function()
-        GMT:SpawnCrate()
-    end)
     --timer.Remove(self:EntIndex() .. self.itemPhrase)
 end
