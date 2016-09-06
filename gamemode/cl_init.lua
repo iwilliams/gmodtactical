@@ -1,9 +1,5 @@
 include("shared.lua");
 
-for k,v in pairs(weapons.GetList()) do
-    if string.StartWith(v["ClassName"], "m9k") then print(v["ClassName"]) end
-end
-
 local hide = {
     CHudHealth      = true,
     CHudCrosshair   = true,
@@ -21,6 +17,18 @@ end
 
 function GM:HUDDrawTargetID()
 end
+
+function GM:ContextMenuOpen()
+    return false
+end
+
+hook.Add("PlayerHurt", "playerHurtShake", function( victim, attacker, healthRemaining, damageTaken )
+    print("ow")
+    if healthRemaining < 0 then return end
+
+    print("ow")
+    util.ScreenShake( victim:GetPos() , 500, 5, 10, 5000 )
+end)
 
 function GM:RenderScreenspaceEffects()
     local player     = LocalPlayer()

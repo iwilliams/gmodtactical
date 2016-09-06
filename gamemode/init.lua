@@ -21,7 +21,7 @@ end
 --hook.Add( "PlayerNoClip", "EnableNoclip", function()
    --return true
 --end)
-
+--
 
 function GM:OnNPCKilled( victim, killer, weapon )
     -- Drop Weapon
