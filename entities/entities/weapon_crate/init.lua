@@ -25,7 +25,7 @@ end
 function ENT:OnTakeDamage(dmg)
     self:TakePhysicsDamage(dmg)
     self:GibBreakClient( Vector(1, 1, 1) )
-    --self:GibBreakServer( Vector(1, 1, 1) )
+
     local allWeps = {}
     table.Add(allWeps, GMT.PrimaryWeapons)
     table.Add(allWeps, GMT.SecondaryWeapons)
@@ -56,67 +56,10 @@ end
 
 ENT.Once = false
 function ENT:Use(activator, caller)
-    ---- The lab cannot be used by non-players (e.g. wire user)
-    ---- The player must be known for the lab to work.
-    --if not activator:IsPlayer() then return end
-
-    --if self.Once then return end
-
-    --local owner = self:Getowning_ent()
-
-    --if not IsValid(owner) then
-        --DarkRP.notify(activator, 1, 3, DarkRP.getPhrase("cant_afford", DarkRP.getPhrase("disabled", self.labPhrase, DarkRP.getPhrase("disconnected_player"))))
-        --return
-    --end
-
-    --local cost = self:SalePrice(activator)
-
-    --if not activator:canAfford(cost) then
-        --DarkRP.notify(activator, 1, 3, DarkRP.getPhrase("cant_afford", self.itemPhrase))
-        --return
-    --end
-
-    --local diff = cost - self:SalePrice(owner)
-    --if not self.noIncome and diff < 0 and not owner:canAfford(math.abs(diff)) then
-        --DarkRP.notify(activator, 1, 3, DarkRP.getPhrase("owner_poor", self.labPhrase))
-        --return
-    --end
-
-    --if not self:canUse(activator) then return end
-
-    --self.Once = true
-    --self.sparking = true
-
-    --activator:addMoney(-cost)
-    --DarkRP.notify(activator, 0, 3, DarkRP.getPhrase("you_bought", self.itemPhrase, DarkRP.formatMoney(cost)))
-
-    --if activator ~= owner and not self.noIncome then
-        --if diff == 0 then
-            --DarkRP.notify(owner, 0, 3, DarkRP.getPhrase("you_received_x", DarkRP.formatMoney(0) .. " " .. DarkRP.getPhrase("profit"), self.itemPhrase))
-        --else
-            --owner:addMoney(diff)
-            --local word = DarkRP.getPhrase("profit")
-            --if diff < 0 then word = DarkRP.getPhrase("loss") end
-            --DarkRP.notify(owner, 0, 3, DarkRP.getPhrase("you_received_x", DarkRP.formatMoney(math.abs(diff)) .. " " .. word, self.itemPhrase))
-        --end
-    --end
-
-    --timer.Create(self:EntIndex() .. self.itemPhrase, 1, 1, function()
-        --if not IsValid(self) then return end
-        --if IsValid(activator) then
-            --self:createItem(activator)
-        --end
-        --self.Once = false
-        --self.sparking = false
-    --end)
 end
 
 function ENT:canUse(owner, activator)
     return true
-end
-
-function ENT:createItem(activator)
-    -- Implement this function
 end
 
 function ENT:Think()
@@ -131,5 +74,4 @@ function ENT:Think()
 end
 
 function ENT:OnRemove()
-    --timer.Remove(self:EntIndex() .. self.itemPhrase)
 end

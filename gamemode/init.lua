@@ -18,10 +18,9 @@ function has_value (tab, val)
 end
 
 -- DELET THIS
---hook.Add( "PlayerNoClip", "EnableNoclip", function()
-   --return true
---end)
---
+hook.Add( "PlayerNoClip", "NoClipCheck", function(ply)
+    return ply:IsSuperAdmin()
+end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
     -- Drop Weapon
