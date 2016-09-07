@@ -44,9 +44,14 @@ function PLAYER:Loadout()
 end
 
 function PLAYER:SetModel()
-	ModelLength = table.getn(playerModels)
-	randomIndex = math.random(ModelLength)
-	self.Player:SetModel(playerModels[randomIndex])
+    print('test')
+    if self.Player.unlockedModel then
+        self.Player:SetModel(self.Player.unlockedModel)
+    else
+        ModelLength = table.getn(playerModels)
+        randomIndex = math.random(ModelLength)
+        self.Player:SetModel(playerModels[randomIndex])
+    end
 end
 
 player_manager.RegisterClass( "player_gmt_base", PLAYER, "player_default" )

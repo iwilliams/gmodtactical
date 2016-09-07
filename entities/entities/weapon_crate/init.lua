@@ -31,7 +31,8 @@ function ENT:OnTakeDamage(dmg)
     table.Add(allWeps, GMT.SecondaryWeapons)
     table.Add(allWeps, GMT.Items)
 
-    local randomWep = ents.Create(table.Random(allWeps))
+    --local randomWep = ents.Create(table.Random(allWeps))
+    local randomWep = ents.Create("player_skin")
     randomWep:SetPos(self:GetPos())
     randomWep:Spawn()
 

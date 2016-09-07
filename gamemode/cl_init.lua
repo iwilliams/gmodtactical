@@ -18,9 +18,9 @@ end
 function GM:HUDDrawTargetID()
 end
 
-function GM:ContextMenuOpen()
-    return false
-end
+--function GM:ContextMenuOpen()
+    --return false
+--end
 
 hook.Add("PlayerHurt", "playerHurtShake", function( victim, attacker, healthRemaining, damageTaken )
     print("ow")
