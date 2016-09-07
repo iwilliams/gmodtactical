@@ -38,6 +38,21 @@ end
 
 hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
 
+    local activeWep = ply:GetActiveWeapon()
+
+
+    -- walk over wepon to get ammo
+    if IsValid(activeWep) and IsValid(wep) and activeWep:GetPrimaryAmmoType() == wep:GetPrimaryAmmoType() then
+        local ammoCount1 = wep:Clip1()
+        --local ammoCount2 = wep:Clip2()
+
+        wep:SetClip1(0)
+        --wep:SetClip2(0)
+
+        ply:GiveAmmo(ammoCount1, wep:GetPrimaryAmmoType())
+        --ply:GiveAmmo(ammoCount2, wep:GetPrimaryAmmoType())
+    end
+
     -- Check E button LOS
     if ( CurTime() <= ( ply.UseWeaponSpawn or 0 ) ) then return end
     if ( !ply:KeyDown( IN_USE ) ) then return false end
@@ -47,17 +62,17 @@ hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
     end
 
     -- If its the same weapon you have then only pickup ammo
-    if ( ply:HasWeapon( wep:GetClass() ) ) then
-        local ammoCount1 = wep:Clip1()
-        local ammoCount2 = wep:Clip2()
+    --if ( ply:HasWeapon( wep:GetClass() ) ) then
+        --local ammoCount1 = wep:Clip1()
+        --local ammoCount2 = wep:Clip2()
 
-        wep:SetClip1(0)
-        wep:SetClip2(0)
+        --wep:SetClip1(0)
+        --wep:SetClip2(0)
 
-        ply:GiveAmmo(ammoCount1, wep:GetPrimaryAmmoType())
-        ply:GiveAmmo(ammoCount2, wep:GetPrimaryAmmoType())
-        return false
-    end
+        --ply:GiveAmmo(ammoCount1, wep:GetPrimaryAmmoType())
+        --ply:GiveAmmo(ammoCount2, wep:GetPrimaryAmmoType())
+        --return false
+    --end
 
     -- Figure out which weapons to drop
     local newWep        = wep:GetClass()
@@ -116,7 +131,7 @@ end
 
 function GMT:SpawnCrates()
     local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    local maxCrates = (#spawnEnts * .5)
+    local maxCrates = (#spawnEnts * .4)
 
     for i=1, maxCrates do
         GMT:SpawnCrate(spawnEnts)
@@ -296,9 +311,9 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
             {
                 weapon = 'm9k_hk45',
             },
-            {
-                weapon = 'weapon_cc_hk416_ex',
-            },
+            --{
+                --weapon = 'weapon_cc_hk416_ex',
+            --},
             {
                 weapon = 'm9k_knife',
             }
