@@ -3,7 +3,7 @@ ENT.Base = "base_entity"
 
 -- These are variables that should be set in entities that base from this
 -- models/props_junk/wood_crate001a.mdl
-ENT.model = "models/props_junk/wood_crate001a.mdl"
+ENT.model = "models/Items/item_item_crate.mdl"
 
 --function ENT:initVars()
     ---- Implement this to set the above variables

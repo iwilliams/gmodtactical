@@ -18,9 +18,17 @@ end
 function GM:HUDDrawTargetID()
 end
 
---function GM:ContextMenuOpen()
-    --return false
---end
+-- Remove NPC rag dolls on death after 10s
+function RemoveDeadRag( ent )
+    if (ent == NULL) or (ent == nil) then return end
+    if (ent:GetClass() == "class C_ClientRagdoll") then
+        if ent:IsValid() and !(ent == NULL) then
+            SafeRemoveEntityDelayed(ent, 10)
+        end
+    end
+end
+hook.Add("OnEntityCreated", "RemoveDeadRag", RemoveDeadRag)
+
 
 hook.Add("PlayerHurt", "playerHurtShake", function( victim, attacker, healthRemaining, damageTaken )
     print("ow")
@@ -59,7 +67,7 @@ function GM:RenderScreenspaceEffects()
 
     DrawColorModify( tab )
     DrawMotionBlur( 0.4, 0.8, math.max(blur, 0) )
-    
+
     --DrawBloom( 0.75, 1.5, 9, 9, 1, 1, 1, 1, 1 )
 end
 

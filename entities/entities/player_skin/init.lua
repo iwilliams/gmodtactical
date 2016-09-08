@@ -5,28 +5,33 @@ include("shared.lua")
 
 function ENT:Initialize()
     self:SetModel(self.model)
+    -- Scale down the model a bit
+    self:SetModelScale( self:GetModelScale() * .8, 0 )
 
-    self:SetModelScale( self:GetModelScale() * .5, 0 )
+    -- Create the ragdoll model
+    local ent= ents.Create("player_skin_model")
+    local pos = self:GetPos()
+    pos:Add( Vector(0, 0, 15) )
+    ent:SetPos(pos)
+    ent:SetOwner( self )
+    ent:SetParent( self )
+    ent:SetMoveType( MOVETYPE_NONE )
+    ent:Spawn()
+    -- Store ragdoll model
+    self.skinModel = ent
 
-    --self:PhysicsInit(SOLID_VPHYSICS)
-    self:PhysicsInit(SOLID_OBB)
+    self:PhysicsInit(SOLID_VPHYSICS)
     self:SetUseType(SIMPLE_USE)
 
-    PrintTable( self:GetSequenceList() )
+    local phys = self:GetPhysicsObject()
+    phys:SetMass(200)
+    phys:Wake()
 
-    --local sequence = self:LookupSequence( "idle" )
-    local sequence = self:LookupSequence( "idle_ar2" )
-    self:SetSequence( sequence )
-
-    self.rotate = 0
-    self.lasttime = SysTime()
-
-    --local phys = self:GetPhysicsObject()
-    --phys:Wake()
+    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 end
 
 function ENT:Use(activator, caller)
-    caller.unlockedModel = "models/player/combine_specialforce_1.mdl"
+    caller.unlockedModel = self.skinModel.model
 
     sound.Play("items/smallmedkit1.wav", self:GetPos())
 
@@ -38,18 +43,11 @@ function ENT:canUse(owner, activator)
 end
 
 function ENT:createItem(activator)
-    -- Implement this function
 end
 
 function ENT:Think()
-    local realPos =self.Entity:GetPos()
-    self.Entity:SetAngles(Angle(0, self.rotate, 0))
-
-    if ( self.rotate > 359 ) then self.rotate = 0 end
-
-    self.rotate = self.rotate - ( 100*( self.lasttime-SysTime() ) )
-    self.lasttime = SysTime()
 end
 
 function ENT:OnRemove()
+    self.skinModel:Remove()
 end
