@@ -16,10 +16,6 @@ function ENT:Initialize()
 
     local phys = self:GetPhysicsObject()
     phys:Wake()
-
-    --self.sparking = false
-    --self.damage = 100
-    --self:Setprice(math.Clamp(self.initialPrice, (GAMEMODE.Config.pricemin ~= 0 and GAMEMODE.Config.pricemin) or self.initialPrice, (GAMEMODE.Config.pricecap ~= 0 and GAMEMODE.Config.pricecap) or self.initialPrice))
 end
 
 function ENT:OnTakeDamage(dmg)
@@ -37,6 +33,8 @@ function ENT:OnTakeDamage(dmg)
     randomWep:SetPos(self:GetPos())
     randomWep:Spawn()
 
+    GMT:ScheduleDespawn(randomWep)
+
     --timer.Simple(1, function()
     GMT:SpawnCrate()
     self.spawnPoint.hasCrate = false
@@ -45,17 +43,8 @@ function ENT:OnTakeDamage(dmg)
 end
 
 function ENT:Destruct()
-    --local vPoint = self:GetPos()
-
-    --util.BlastDamage(self, self, vPoint, 200, 200)
-    --local effectdata = EffectData()
-    --effectdata:SetStart(vPoint)
-    --effectdata:SetOrigin(vPoint)
-    --effectdata:SetScale(1)
-    --util.Effect("Explosion", effectdata)
 end
 
-ENT.Once = false
 function ENT:Use(activator, caller)
 end
 
@@ -64,14 +53,6 @@ function ENT:canUse(owner, activator)
 end
 
 function ENT:Think()
-    --if self.sparking then
-        --local effectdata = EffectData()
-        --effectdata:SetOrigin(self:GetPos())
-        --effectdata:SetMagnitude(1)
-        --effectdata:SetScale(1)
-        --effectdata:SetRadius(2)
-        --util.Effect("Sparks", effectdata)
-    --end
 end
 
 function ENT:OnRemove()
