@@ -1,7 +1,7 @@
 include("shared.lua");
 
 local hide = {
-    CHudHealth      = true,
+    --CHudHealth      = true,
     CHudCrosshair   = true,
     CHudAmmo        = true,
     --CHudBattery     = true,
@@ -53,12 +53,15 @@ function GM:RenderScreenspaceEffects()
     local maxRed = 0.4
     local maxColour = .2
 
+    local contrast = 1
+    if not player:Alive() then contrast = 0 end
+
     local tab = {
         [ "$pp_colour_addr" ] = math.max(maxRed - (maxRed * percentage), 0) * 1.2,
         [ "$pp_colour_addg" ] = 0,
         [ "$pp_colour_addb" ] = 0,
         [ "$pp_colour_brightness" ] = -.07,
-        [ "$pp_colour_contrast" ] = 1,
+        [ "$pp_colour_contrast" ] = contrast,
         [ "$pp_colour_colour" ] = math.max(1 * percentage, 0),
         [ "$pp_colour_mulr" ] = 0,
         [ "$pp_colour_mulg" ] = 0,

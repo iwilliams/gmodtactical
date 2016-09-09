@@ -44,7 +44,6 @@ function PLAYER:Loadout()
 end
 
 function PLAYER:SetModel()
-    print('test')
     if self.Player.unlockedModel then
         self.Player:SetModel(self.Player.unlockedModel)
     else

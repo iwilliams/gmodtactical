@@ -99,7 +99,20 @@ local function PlayerSpawn( ply )
 end
 hook.Add( "PlayerSpawn", "UseWeapon", PlayerSpawn )
 
+function GM:PlayerHurt( victim, attacker, healthRemaining )
+    if ( victim:IsPlayer() ) then
+        victim:EmitSound("vo/npc/male01/pain02.wav")
 
+        if healthRemaining < 20 and not victim.isBreathing then
+            --victim:EmitSound("player_heart")
+            --victim:EmitSound("player_breathe")
+            --
+            --local testSound = CreateSound(victim, Sound("player_breathe"))
+            --testSound:Play()
+            --victim.isBreathing = true
+        end
+    end
+end
 
 hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talker )
     if listener:GetPos():Distance( talker:GetPos() ) > 500 then return false end
@@ -281,7 +294,11 @@ function GMT:SetupDB()
         sql.Commit()
     end
 end
-GMT:SetupDB()
+
+local function init()
+    GMT:SetupDB()
+end
+hook.Add( "Initialize", "some_unique_name", init )
 
 hook.Add("PlayerAuthed", "gmt_db_store_player", function( ply, steamid )
     -- Create a db entry fot his player
@@ -377,11 +394,20 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim )
         GMT:PlayerAmmoClear(victim)
     end
 
-    -- first person death
-    victim:Spectate(OBS_MODE_IN_EYE)
-    victim:SpectateEntity( victim:GetRagdollEntity() )
+    victim:StopSound("player_breathe")
+    victim:StopSound("player_heart")
+    victim.isBreathing = false
 
-    victim:ScreenFade( SCREENFADE.OUT, color_black, 5, 60 * 60 * 60)
+
+    print(victim:GetModel())
+
+    -- first person death
+    --victim:Spectate(OBS_MODE_IN_EYE)
+    --victim:SpectateEntity( victim:GetRagdollEntity() )
+
+    local ragDoll = victim:GetRagdollEntity()
+    if IsValid(ragDoll) then ragDoll:Remove() end
+    --victim:ScreenFade( SCREENFADE.OUT, color_black, 5, 60 * 60 * 60)
 
     victim.hasSpawned = true
 end)

@@ -3,35 +3,8 @@ AddCSLuaFile("shared.lua")
 
 include("shared.lua")
 
-local possibleSkins = {
-    "models/player/combine_specialforce_1.mdl",
-    "models/player/pmc_5/pmc__01.mdl",
-    "models/player/pmc_5/pmc__02.mdl",
-    "models/player/pmc_5/pmc__03.mdl",
-    "models/player/pmc_5/pmc__04.mdl",
-    "models/player/pmc_5/pmc__05.mdl",
-    "models/player/pmc_5/pmc__06.mdl",
-    "models/player/pmc_5/pmc__07.mdl",
-    "models/player/pmc_5/pmc__08.mdl",
-    "models/player/pmc_5/pmc__09.mdl",
-    "models/player/pmc_5/pmc__10.mdl",
-    "models/player/pmc_5/pmc__11.mdl",
-    "models/player/pmc_5/pmc__12.mdl",
-    "models/player/pmc_5/pmc__13.mdl",
-    "models/player/pmc_5/pmc__14.mdl",
-    "models/player/tac_op1.mdl",
-    "models/player/tac_op2.mdl",
-    "models/player/tac_op3.mdl",
-    "models/player/tac_op4.mdl",
-    "models/player/tac_op5.mdl",
-    "models/player/tac_op6.mdl",
-    "models/player/tac_op7.mdl",
-    "models/player/tac_op8.mdl",
-    "models/player/tac_op9.mdl"
-}
-
 function ENT:Initialize()
-    self.model = table.Random(possibleSkins)
+    self.model = table.Random(GMT.PossibleSkins)
 
     self:SetModel(self.model)
     self:SetModelScale( self:GetModelScale() * .40, 0 )
