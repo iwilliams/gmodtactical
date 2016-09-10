@@ -18,7 +18,10 @@ function has_value (tab, val)
 end
 
 -- DELET THIS
-hook.Add( "PlayerNoClip", "NoClipCheck", function(ply)
+hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
+    if ply:IsSuperAdmin() then
+        ply:SetNoTarget(noclip)
+    end
     return ply:IsSuperAdmin()
 end)
 
@@ -169,6 +172,17 @@ hook.Add( "InitPostEntity", "spawnCrates", function()
     timer.Simple(1, function()
         GMT:SpawnCrates()
     end)
+
+    local npcControllers  = ents.FindByClass( "logic_case" )
+
+    for key, controller in pairs(npcControllers) do
+        function controller:AcceptInput ( inputName, activator, called, data )
+            print(inputName)
+            print(activator)
+            print(called)
+            print(data)
+        end
+    end
 end )
 
 
