@@ -33,11 +33,11 @@ end
 
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    --if ply:IsSuperAdmin() then
+    if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    --end
-    return true
-    --return ply:IsSuperAdmin()
+    end
+    --return true
+    return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
@@ -52,7 +52,9 @@ function GM:OnNPCKilled( victim, killer, weapon )
     end
 end
 
-
+function GM:GetFallDamage( ply, speed )
+    return ( speed / 8 )
+end
 
 hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
 
@@ -175,7 +177,7 @@ end
 
 function GMT:SpawnCrates()
     local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    local maxCrates = (#spawnEnts * .4)
+    local maxCrates = (#spawnEnts * .25)
 
     for i=1, maxCrates do
         GMT:SpawnCrate(spawnEnts)
@@ -187,17 +189,6 @@ hook.Add( "InitPostEntity", "spawnCrates", function()
     timer.Simple(1, function()
         GMT:SpawnCrates()
     end)
-
-    local npcControllers  = ents.FindByClass( "logic_case" )
-
-    for key, controller in pairs(npcControllers) do
-        function controller:AcceptInput ( inputName, activator, called, data )
-            print(inputName)
-            print(activator)
-            print(called)
-            print(data)
-        end
-    end
 end )
 
 
@@ -341,7 +332,7 @@ hook.Add("PlayerAuthed", "gmt_db_store_player", function( ply, steamid )
     -- Player hasn't spawned yet
     ply.hasSpawned = false
 
-    PrintTable(sql.Query("SELECT * FROM gmt_player"))
+    --PrintTable(sql.Query("SELECT * FROM gmt_player"))
 end)
 
 -- Setup player inventory
@@ -428,7 +419,7 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim )
     victim.isBreathing = false
 
 
-    print(victim:GetModel())
+    --print(victim:GetModel())
 
     -- first person death
     --victim:Spectate(OBS_MODE_IN_EYE)

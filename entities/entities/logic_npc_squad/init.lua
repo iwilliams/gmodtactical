@@ -21,7 +21,9 @@ local function GetNPCNumber( npc )
     return string.Explode("_", npc:GetName() )[4]
 end
 
-local function SendNPCToPoint( npc, pointName )
+function ENT:SendNPCToPoint( npc, pointName )
+    if not IsValid(npc) then return end
+
     -- Get the Brain
     local scriptOne = ents.FindByName(npc:GetName() .. "_brain")
     local script    = scriptOne[1]
@@ -42,6 +44,8 @@ local function SendNPCToPoint( npc, pointName )
         script:Fire( "StartSchedule" )
     end
 
+    npc.pathDone = false
+
     print( "Sending NPC " .. npc:GetName() .. " to next path " .. nextPath )
 end
 
@@ -60,31 +64,36 @@ function ENT:Initialize()
         return string.find( maker:GetName(), self:GetName() )
     end)
 
+    for k,v in pairs(self.NPCMakers) do
+        v.NPCIsDead = true
+    end
+
     -- Max NPCs Allowed
     self.MaxNPCs = table.Count( self.NPCMakers )
+
 
     -- Set Squad state
     self.State = SQUAD_UNSPAWNED
 
     -- Table for alive NPCs
     self.AliveNPCs = {}
+
+    -- Set respawn number
+    self.Respawns = 0
 end
 
 function ENT:SpawnSquad()
     print("----- Spawn NPCs -----")
     for k, maker in pairs(self.NPCMakers) do
-        print(maker)
-        maker:Fire( "Enable"  )
-        maker:Fire( "Spawn"   )
-        maker:Fire( "Disable" )
+        if maker.NPCIsDead  or table.Count(self.AliveNPCs) < 1 then
+            print(maker)
+            maker:Fire( "Enable"  )
+            maker:Fire( "Spawn"   )
+            maker:Fire( "Disable" )
+            maker.NPCIsDead = false
+        end
     end
 end
-
---function ENT:GetNPCs()
-    --return table.filter(ents.FindByName("npc_*"), function(v, k, allEnts)
-        --return v:IsNPC()
-    --end)
---end
 
 function ENT:ChangeState( state )
     self.State = state
@@ -97,87 +106,80 @@ function ENT:Think()
     if self.State == SQUAD_UNSPAWNED then
         if CurTime() - self.LastThink > 5 then
             self:SpawnSquad()
-            return self:ChangeState( SQUAD_WAITING )
-        end
-    elseif self.State == SQUAD_WAITING then
-        print( "waiting" )
-        for k, npc in pairs(self.AliveNPCs) do
-            SendNPCToPoint( npc, self:GetName() .. "_path_" .. GetNPCNumber(npc) .. "_1" )
-            npc.isPatroling = true
-        end
-        return self:ChangeState( SQUAD_PATROLING )
-    elseif self.State == SQUAD_SEARCHING then
-        --if CurTime - self.LastThink
-    end
 
-    --[[
-    if (CurTime() - self.LastNPCCheck) > 15 then
-        print("---- CHECK NPCS ----")
-        self.LastNPCCheck = CurTime()
-
-        local npcs = self:GetNPCs()
-
-        print("Num NPCs: ", table.Count(npcs) )
-        if table.Count( npcs ) == 0 then
-            self:SpawnNPCs()
-        -- If all NPCs are waiting for orders
-        elseif table.Count( npcs ) == table.Count( table.filter( npcs, function(v) return v.pathDone end ) ) then
-            for k, v in pairs(npcs) do
-                if v:IsNPC() then
-                    SendNPCToPoint( v , v:GetName() .. "_path_1" )
-                    v.pathDone = false
+            timer.Simple(1, function()
+                for k, npc in pairs(self.AliveNPCs) do
+                    self:SendNPCToPoint( npc, self:GetName() .. "_path_" .. GetNPCNumber(npc) .. "_1" )
                 end
-            end
-        else
-            for k, v in pairs(npcs) do
-                if v:IsNPC() then
-                    local npcSchedule = GetNPCSchedule( v )
-                    print( v:GetName() .. " status:", npcSchedule )
+            end)
 
-                    if npcSchedule == SCHED_IDLE_STAND and not v.pathDone then
-                        SendNPCToPoint( v )
-                    elseif npcSchedule == SCHED_NONE then
-                        if v.noneTimes then
-                            v.noneTimes = v.noneTimes + 1
+            return self:ChangeState( SQUAD_PATROLING )
+        end
+    elseif self.State == SQUAD_PATROLING then
+
+        if (CurTime() - self.LastThink) > 15 then
+            print("---- " .. self:GetName() .. " " .. "CHECK NPCS ----")
+            self.LastThink = CurTime()
+
+            if table.Count( self.AliveNPCs )  < 1 then
+                print("---- " .. self:GetName() .. " " .. "RESPAWN NPCS ----")
+                return self:ChangeState( SQUAD_UNSPAWNED )
+            else
+                for k, v in pairs(self.AliveNPCs) do
+                    if v:IsNPC() then
+
+                        local npcSchedule = GetNPCSchedule( v )
+
+                        if npcSchedule == SCHED_IDLE_STAND then
+                            print( v:GetName() .. " status: SCHED_IDLE_STAND" )
+                            self:SendNPCToPoint( v )
+                        elseif npcSchedule == SCHED_NONE then
+                            print( v:GetName() .. " status: SCHED_NONE" )
+                            if v.noneTimes then
+                                v.noneTimes = v.noneTimes + 1
+                            else
+                                v.noneTimes = 1
+                            end
+
+                            if v.noneTimes == 3 then
+                                v.noneTimes = 0
+                                self:SendNPCToPoint( v )
+                            end
                         else
-                            v.noneTimes = 1
+                            print( v:GetName() .. " status: " .. npcSchedule )
+                            v.noneTimes = 0
                         end
 
-                        if v.noneTimes == 3 then
-                            v.noneTimes = 0
-                            SendNPCToPoint( v )
-                        end
-                    else
-                        v.noneTimes = 0
                     end
                 end
             end
+
         end
+
     end
-    --]]
+
 end
---]]
 
 function ENT:AcceptInput(inputName, actevator, called, data )
-    print("-----------")
-    print("AcceptInput")
-    print("inputName: ",    inputName)
-    print("activator: ",    activator)
-    print("called: ",       called)
-    print("data: ",         data)
-    print("-----------")
+    if false then
+        print("-----------")
+        print("AcceptInput")
+        print("inputName: ",    inputName)
+        print("activator: ",    activator)
+        print("called: ",       called)
+        print("data: ",         data)
+        print("-----------")
+    end
 
     -- NPC lost player
     if inputName == "OnLostPlayer" then
-        --timer.Simple(5, function()
-            --SendNPCToPoint( called )
-        --end)
     end
 
     if inputName == "OnLostEnemy" then
-        timer.Simple(5, function()
-            SendNPCToPoint( called )
-        end)
+        print( "---- " .. called:GetName() .. " OnLostEnemy ----" )
+        --timer.Simple(5, function()
+            --self:SendNPCToPoint( called )
+        --end)
     end
 
     -- NPC Spawner Spawned NPC
@@ -185,36 +187,43 @@ function ENT:AcceptInput(inputName, actevator, called, data )
         local npcName = data
         local npc = ents.FindByName( npcName )[1]
 
-        table.insert( self.AliveNPCs, npc )
 
-        npc.isPatroling = false
-        --timer.Simple(2, function()
-            --SendNPCToPoint( npc[1], npcName .. "_path_1" )
+        if self.Respawns < 5 then
+            npc:Give( "npc_m9k_mp5" )
+        elseif self.Respawns < 10 then
+            npc:Give( "npc_m9k_hk416" )
+        elseif self.Respawns < 15 then
+            npc:Give(" npc_m9k_m249lmg" )
+        end
+
+        npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
+
+        table.insert( self.AliveNPCs, npc )
     end
 
     if inputName == "OnDeath" then
         table.RemoveByValue( self.AliveNPCs, called )
+        self.Respawns = self.Respawns + 1
+    end
+
+    if inputName == "OnAllLiveChildrenDead" then
+        called.NPCIsDead = true
     end
 
     if inputName == "OnPathEnd" then
-        local npcName = data
-        local npc = ents.FindByName( npcName )[1]
-        npc.isPatroling = false
+        local npcName   = data
+        local npc       = ents.FindByName( npcName )[1]
+
+        npc.pathDone = true
 
         local allDone = true
-        for k,v in pairs( self.AliveNPCs ) do
-           allDone = allDone && !v.isPatroling
+        for k, v in pairs(self.AliveNPCs) do
+            allDone = allDone && v.pathDone
         end
 
         if allDone then
-            return self:ChangeState( SQUAD_WAITING )
+            return self:ChangeState( SQUAD_UNSPAWNED )
         end
-
-        --local npcs = self:GetNPCs()
-        ---- If there are fewer npcs then spawners refil squad
-        --if table.Count( npcs ) < table.Count( self.NPCMakers ) then
-            --self:SpawnNPCs()
-        --end
     end
 end
 
