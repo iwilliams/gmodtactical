@@ -1,7 +1,7 @@
 include("shared.lua");
 
 local hide = {
-    --CHudHealth      = true,
+    CHudHealth      = true,
     CHudCrosshair   = true,
     CHudAmmo        = true,
     --CHudBattery     = true,
@@ -43,11 +43,11 @@ function GM:RenderScreenspaceEffects()
     local maxHealth  = player:GetMaxHealth()
     local health     = player:Health()
 
-    if health == maxHealth then return end
+    if health > 85 then return end
 
     local percentage = (health/maxHealth)
 
-    local maxBlur = 0.035
+    local maxBlur = 0.015
     local blur = maxBlur - (maxBlur * percentage)
 
     local maxRed = 0.4

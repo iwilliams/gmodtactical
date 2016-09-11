@@ -7,6 +7,20 @@ include("player.lua")
 GMT = {}
 include("config.lua")
 
+-- table.filter({"a", "b", "c", "d"}, function(o, k, i) return o >= "c" end)  --> {"c","d"}
+-- --
+-- -- @FGRibreau - Francois-Guillaume Ribreau
+-- -- @Redsmin - A full-feature client for Redis http://redsmin.com
+table.filter = function(t, filterIter)
+    local out = {}
+
+    for k, v in pairs(t) do
+        if filterIter(v, k, t) then out[k] = v end
+    end
+
+    return out
+end
+
 function has_value (tab, val)
     for index, value in pairs (tab) do
         if value == val then
@@ -19,10 +33,11 @@ end
 
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    if ply:IsSuperAdmin() then
+    --if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    end
-    return ply:IsSuperAdmin()
+    --end
+    return true
+    --return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
