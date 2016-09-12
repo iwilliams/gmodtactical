@@ -191,9 +191,9 @@ function ENT:AcceptInput(inputName, actevator, called, data )
         if self.Respawns < 5 then
             npc:Give( "npc_m9k_mp5" )
         elseif self.Respawns < 10 then
-            npc:Give( "npc_m9k_hk416" )
-        elseif self.Respawns < 15 then
-            npc:Give(" npc_m9k_m249lmg" )
+            npc:Give( "npc_m9k_m416" )
+        elseif self.Respawns > 15 then
+            npc:Give("npc_m9k_m249lmg" )
         end
 
         npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )

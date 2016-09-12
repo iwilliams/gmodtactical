@@ -30,7 +30,10 @@ function ENT:OnTakeDamage(dmg)
 
     local randomWep = ents.Create(table.Random(allWeps))
     --local randomWep = ents.Create("player_skin")
-    randomWep:SetPos(self:GetPos())
+    --
+    local pos = self:GetPos()
+    pos:Add( Vector(0, 0, 15) )
+    randomWep:SetPos( pos )
     randomWep:Spawn()
 
     GMT:ScheduleDespawn(randomWep)

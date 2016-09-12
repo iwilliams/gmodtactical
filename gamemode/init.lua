@@ -177,7 +177,7 @@ end
 
 function GMT:SpawnCrates()
     local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    local maxCrates = (#spawnEnts * .25)
+    local maxCrates = (#spawnEnts * .10)
 
     for i=1, maxCrates do
         GMT:SpawnCrate(spawnEnts)
