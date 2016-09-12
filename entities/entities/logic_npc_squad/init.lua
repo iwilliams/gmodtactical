@@ -59,18 +59,33 @@ end
 function ENT:Initialize()
     self.LastThink = CurTime()
 
-    -- Store Spawners
-    self.NPCMakers = table.filter(ents.FindByClass( "npc_template_maker" ), function(maker)
-        return string.find( maker:GetName(), self:GetName() )
-    end)
+    print( "----- INITIALIZE " .. self:GetName() .. "------" )
 
-    for k,v in pairs(self.NPCMakers) do
-        v.NPCIsDead = true
+    -- Store Spawners
+    self.NPCMakers = {}
+
+    for k, v in pairs( ents.FindByClass( "npc_template_maker" ) ) do
+        if string.find( v:GetName(), self:GetName() ) then
+            table.insert( self.NPCMakers, v )
+        end
     end
 
-    -- Max NPCs Allowed
-    self.MaxNPCs = table.Count( self.NPCMakers )
+    table.sort( self.NPCMakers, function( a, b )
+        return a:GetName() < b:GetName()
+    end)
 
+
+    print( "--- Makers: ---" )
+    PrintTable( self.NPCMakers )
+
+    -- Save spawn points
+    self.SpawnPoints = ents.FindByName( "squad_1_spawn_*" )
+
+    print ( "--- Spawn Points ---" )
+    PrintTable( self.SpawnPoints )
+
+    -- Max NPCs Allowed
+    self.MaxNPCs = table.Count( self.SpawnPoints )
 
     -- Set Squad state
     self.State = SQUAD_UNSPAWNED
@@ -80,19 +95,35 @@ function ENT:Initialize()
 
     -- Set respawn number
     self.Respawns = 0
+
+    -- Set level
+    self.Level = 1
 end
 
 function ENT:SpawnSquad()
-    print("----- Spawn NPCs -----")
-    for k, maker in pairs(self.NPCMakers) do
-        if maker.NPCIsDead  or table.Count(self.AliveNPCs) < 1 then
-            print(maker)
-            maker:Fire( "Enable"  )
-            maker:Fire( "Spawn"   )
-            maker:Fire( "Disable" )
-            maker.NPCIsDead = false
+    print("----- Spawn " .. self:GetName() .. " NPCs -----")
+
+    local level
+
+    if not self.Respawns      then level = 1
+    elseif self.Respawns < 5  then level = 1
+    elseif self.Respawns < 10 then level = 2
+    elseif self.Respawns < 15 then level = 3
+    else level = 4 end
+
+    for k, v in pairs( self.SpawnPoints ) do
+        print( v, v.IsAlive )
+        if not v.IsAlive then
+            -- Set destination to spawn point
+            self.NPCMakers[level]:Fire("ChangeDestinationGroup", self:GetName() .. "_spawn_" .. k)
+            -- Spawn
+            self.NPCMakers[level]:Fire( "Enable"  )
+            self.NPCMakers[level]:Fire( "Spawn"   )
+            self.NPCMakers[level]:Fire( "Disable" )
         end
     end
+
+    self.Spawned = true
 end
 
 function ENT:ChangeState( state )
@@ -161,7 +192,7 @@ function ENT:Think()
 end
 
 function ENT:AcceptInput(inputName, actevator, called, data )
-    if false then
+    if true then
         print("-----------")
         print("AcceptInput")
         print("inputName: ",    inputName)
@@ -177,37 +208,38 @@ function ENT:AcceptInput(inputName, actevator, called, data )
 
     if inputName == "OnLostEnemy" then
         print( "---- " .. called:GetName() .. " OnLostEnemy ----" )
-        --timer.Simple(5, function()
-            --self:SendNPCToPoint( called )
-        --end)
     end
 
     -- NPC Spawner Spawned NPC
     if inputName == "OnSpawnNPC" then
-        local npcName = data
-        local npc = ents.FindByName( npcName )[1]
+        local kv = called:GetKeyValues()
 
+        if kv["classname"] == "info_npc_spawn_destination" then
+            local npc = ents.FindByName( kv["RenameNPC"] )[1]
+            npc.Name = kv["RenameNPC"]
 
-        if self.Respawns < 5 then
-            npc:Give( "npc_m9k_mp5" )
-        elseif self.Respawns < 10 then
-            npc:Give( "npc_m9k_m416" )
-        elseif self.Respawns > 15 then
-            npc:Give("npc_m9k_m249lmg" )
+            npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
+
+            called.IsAlive = true
+
+            table.insert( self.AliveNPCs, npc )
         end
-
-        npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
-
-        table.insert( self.AliveNPCs, npc )
     end
 
     if inputName == "OnDeath" then
         table.RemoveByValue( self.AliveNPCs, called )
         self.Respawns = self.Respawns + 1
-    end
 
-    if inputName == "OnAllLiveChildrenDead" then
-        called.NPCIsDead = true
+        -- Find the spawn point that spawned this NPC
+        for k, point in pairs( self.SpawnPoints ) do
+            local pointKeyValues = point:GetKeyValues()
+
+            if called.Name == pointKeyValues["RenameNPC"] then
+                point.IsAlive = false
+                return
+            end
+        end
+
     end
 
     if inputName == "OnPathEnd" then

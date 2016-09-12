@@ -43,12 +43,15 @@ end)
 function GM:OnNPCKilled( victim, killer, weapon )
     -- Drop Weapon
     local wep = victim:GetActiveWeapon()
-    local wepName = string.sub(wep:GetClass(), 5)
-    local newWep = ents.Create( wepName )
-    if IsValid(newWep) then
-        newWep:SetPos(victim:GetPos() + Vector(0,0,64))
-        newWep:Spawn()
-        GMT:ScheduleDespawn(newWep)
+
+    if IsValid( wep ) then
+        local wepName = string.sub(wep:GetClass(), 5)
+        local newWep = ents.Create( wepName )
+        if IsValid(newWep) then
+            newWep:SetPos(victim:GetPos() + Vector(0,0,64))
+            newWep:Spawn()
+            GMT:ScheduleDespawn(newWep)
+        end
     end
 end
 
@@ -138,6 +141,20 @@ hook.Add( "PlayerCanHearPlayersVoice", "Maximum Range", function( listener, talk
     if listener:GetPos():Distance( talker:GetPos() ) > 500 then return false end
 end )
 
+
+function GM:ScalePlayerDamage( ply, hitgroup, dmginfo )
+
+    -- More damage when we're shot in the head
+    if ( hitgroup == HITGROUP_HEAD ) then
+        dmginfo:ScaleDamage( 100 )
+    end
+
+    local attacker = dmginfo:GetAttacker()
+    if attacker:IsNPC() then
+        dmginfo:ScaleDamage( 2 )
+    end
+
+end
 
 
 function GMT:ScheduleDespawn(ent)
@@ -418,19 +435,68 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim )
     victim:StopSound("player_heart")
     victim.isBreathing = false
 
-
-    --print(victim:GetModel())
-
-    -- first person death
-    --victim:Spectate(OBS_MODE_IN_EYE)
-    --victim:SpectateEntity( victim:GetRagdollEntity() )
-
     local ragDoll = victim:GetRagdollEntity()
     if IsValid(ragDoll) then ragDoll:Remove() end
-    --victim:ScreenFade( SCREENFADE.OUT, color_black, 5, 60 * 60 * 60)
 
     victim.hasSpawned = true
 end)
+
+
+function GM:PlayerDeath( Victim, Inflictor, Attacker ) -- We are copying this function from Base to make it not print into players consoles that a player died.
+
+    -- Don't spawn for at least 2 seconds
+    Victim.NextSpawnTime = CurTime() + 5
+    Victim.DeathTime = CurTime()
+
+    if ( !IsValid( Inflictor ) && IsValid( Attacker ) ) then
+        Inflictor = Attacker
+    end
+
+    -- Convert the inflictor to the weapon that they're holding if we can.
+    -- This can be right or wrong with NPCs since combine can be holding a
+    -- pistol but kill you by hitting you with their arm.
+    if ( Inflictor && Inflictor == Attacker && (Inflictor:IsPlayer() || Inflictor:IsNPC()) ) then
+
+        Inflictor = Inflictor:GetActiveWeapon()
+        if ( !IsValid( Inflictor ) ) then Inflictor = Attacker end
+
+    end
+
+    if (Attacker == Victim) then
+
+        --umsg.Start( "PlayerKilledSelf" )
+            --umsg.Entity( Victim )
+        --umsg.End()
+
+        print( Attacker:Nick() .. " suicided!" )
+
+    return end
+
+    if ( Attacker:IsPlayer() ) then
+
+        --umsg.Start( "PlayerKilledByPlayer" )
+
+            --umsg.Entity( Victim )
+            --umsg.String( Inflictor:GetClass() )
+            --umsg.Entity( Attacker )
+
+        --umsg.End()
+
+        print( Attacker:Nick() .. " killed " .. Victim:Nick() .. " using " .. Inflictor:GetClass() )
+
+    return end
+
+    --umsg.Start( "PlayerKilled" )
+
+        --umsg.Entity( Victim )
+        --umsg.String( Inflictor:GetClass() )
+        --umsg.String( Attacker:GetClass() )
+
+    --umsg.End()
+
+    print( Victim:Nick() .. " was killed by " .. Attacker:GetClass() )
+
+end
 
 hook.Add("PlayerDisconnected", "gmt_db_player_disconnect", function( ply )
     sql.Begin()
