@@ -4,9 +4,13 @@ local hide = {
     CHudHealth      = true,
     CHudCrosshair   = true,
     CHudAmmo        = true,
+    CHudVoiceStatus = true,
     --CHudBattery     = true,
     --CHudSecondaryAmmo = true
 }
+
+-- sets voice hud off
+g_VoicePanelList:SetVisible(false)
 
 hook.Add( "HUDShouldDraw", "gmt_hide_HUD", function( name )
     if ( hide[ name ] ) then return false end

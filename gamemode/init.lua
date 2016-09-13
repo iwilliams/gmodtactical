@@ -33,11 +33,11 @@ end
 
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    if ply:IsSuperAdmin() then
+    --if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    end
-    --return true
-    return ply:IsSuperAdmin()
+    --end
+    return true
+    --return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
@@ -194,7 +194,7 @@ end
 
 function GMT:SpawnCrates()
     local spawnEnts  = ents.FindByClass( "info_crate_spawn" )
-    local maxCrates = (#spawnEnts * .10)
+    local maxCrates = (#spawnEnts * .20)
 
     for i=1, maxCrates do
         GMT:SpawnCrate(spawnEnts)

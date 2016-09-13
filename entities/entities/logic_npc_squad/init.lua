@@ -79,7 +79,7 @@ function ENT:Initialize()
     PrintTable( self.NPCMakers )
 
     -- Save spawn points
-    self.SpawnPoints = ents.FindByName( "squad_1_spawn_*" )
+    self.SpawnPoints = ents.FindByName( self:GetName() .. "_spawn_*" )
 
     print ( "--- Spawn Points ---" )
     PrintTable( self.SpawnPoints )
@@ -217,6 +217,8 @@ function ENT:AcceptInput(inputName, actevator, called, data )
         if kv["classname"] == "info_npc_spawn_destination" then
             local npc = ents.FindByName( kv["RenameNPC"] )[1]
             npc.Name = kv["RenameNPC"]
+
+            print( "Renaming npc " .. kv["RenameNPC"] )
 
             npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
 
