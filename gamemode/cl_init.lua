@@ -10,7 +10,9 @@ local hide = {
 }
 
 -- sets voice hud off
-g_VoicePanelList:SetVisible(false)
+--function GM:Initialize()
+    --g_VoicePanelList:SetVisible(false)
+--end
 
 hook.Add( "HUDShouldDraw", "gmt_hide_HUD", function( name )
     if ( hide[ name ] ) then return false end

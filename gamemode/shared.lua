@@ -25,3 +25,19 @@ sound.Add({
     level = 80,
     sound = "player/breathe1.wav"
 })
+
+local CMoveData = FindMetaTable( "CMoveData" )
+
+function CMoveData:RemoveKeys( keys )
+    -- Using bitwise operations to clear the key bits.
+    local newbuttons = bit.band( self:GetButtons(), bit.bnot( keys ) )
+    self:SetButtons( newbuttons )
+end
+
+--PLAYER.WalkSpeed 			= 100
+--PLAYER.RunSpeed				= 150
+hook.Add( "StartCommand", "Disable Jumping", function( ply, cmd )
+    if not cmd:KeyDown( IN_FORWARD ) and cmd:KeyDown( IN_SPEED ) then
+        cmd:RemoveKey( IN_SPEED )
+    end
+end )

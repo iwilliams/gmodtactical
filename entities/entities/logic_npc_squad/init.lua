@@ -232,6 +232,18 @@ function ENT:AcceptInput(inputName, actevator, called, data )
         table.RemoveByValue( self.AliveNPCs, called )
         self.Respawns = self.Respawns + 1
 
+        local siren = ents.FindByName("squad_siren")[1]
+
+        if self.Respawns % 5 == 0 then
+            siren:Fire('PlaySound')
+            timer.Simple(15, function()
+                siren:Fire('FadeOut', 5)
+                timer.Simple(5, function()
+                    siren:Fire('StopSound')
+                end)
+            end)
+        end
+
         -- Find the spawn point that spawned this NPC
         for k, point in pairs( self.SpawnPoints ) do
             local pointKeyValues = point:GetKeyValues()

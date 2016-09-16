@@ -31,13 +31,17 @@ function has_value (tab, val)
     return false
 end
 
+function GM:PlayerSwitchFlashlight( ply, enabled)
+    return true
+end
+
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    --if ply:IsSuperAdmin() then
+    if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    --end
-    return true
-    --return ply:IsSuperAdmin()
+    end
+    --return true
+    return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
@@ -56,7 +60,7 @@ function GM:OnNPCKilled( victim, killer, weapon )
 end
 
 function GM:GetFallDamage( ply, speed )
-    return ( speed / 8 )
+    return ( speed / 9 )
 end
 
 hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
@@ -151,7 +155,7 @@ function GM:ScalePlayerDamage( ply, hitgroup, dmginfo )
 
     local attacker = dmginfo:GetAttacker()
     if attacker:IsNPC() then
-        dmginfo:ScaleDamage( 2 )
+        dmginfo:ScaleDamage( 1.75 )
     end
 
 end
@@ -333,18 +337,18 @@ function GMT:SetupDB()
 end
 
 local function init()
-    GMT:SetupDB()
+    --GMT:SetupDB()
 end
 hook.Add( "Initialize", "some_unique_name", init )
 
 hook.Add("PlayerAuthed", "gmt_db_store_player", function( ply, steamid )
     -- Create a db entry fot his player
-    sql.Begin()
-    result = sql.Query("INSERT OR IGNORE INTO gmt_player (steamID) VALUES (" .. sql.SQLStr(steamid) .. ")")
-    if not result then
-        print(sql.LastError())
-    end
-    sql.Commit()
+    --sql.Begin()
+    --result = sql.Query("INSERT OR IGNORE INTO gmt_player (steamID) VALUES (" .. sql.SQLStr(steamid) .. ")")
+    --if not result then
+        --print(sql.LastError())
+    --end
+    --sql.Commit()
 
     -- Player hasn't spawned yet
     ply.hasSpawned = false
@@ -378,9 +382,6 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
             {
                 weapon = 'm9k_hk45',
             },
-            --{
-                --weapon = 'weapon_cc_hk416_ex',
-            --},
             {
                 weapon = 'm9k_knife',
             }
@@ -427,8 +428,8 @@ end)
 
 hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim )
     if victim.hasSpawned == false then
-        GMT:ClearPlayerInventory(victim)
-        GMT:PlayerAmmoClear(victim)
+        --GMT:ClearPlayerInventory(victim)
+        --GMT:PlayerAmmoClear(victim)
     end
 
     victim:StopSound("player_breathe")
@@ -499,12 +500,12 @@ function GM:PlayerDeath( Victim, Inflictor, Attacker ) -- We are copying this fu
 end
 
 hook.Add("PlayerDisconnected", "gmt_db_player_disconnect", function( ply )
-    sql.Begin()
-    -- Clear Player info
-    GMT:ClearPlayerInventory(ply)
-    GMT:PlayerAmmoClear(ply)
-    -- Save player info
-    GMT:SavePlayerInventory(ply)
-    GMT:PlayerAmmoSave(ply)
-    sql.Commit()
+    --sql.Begin()
+    ---- Clear Player info
+    --GMT:ClearPlayerInventory(ply)
+    --GMT:PlayerAmmoClear(ply)
+    ---- Save player info
+    --GMT:SavePlayerInventory(ply)
+    --GMT:PlayerAmmoSave(ply)
+    --sql.Commit()
 end)
