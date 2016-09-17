@@ -1,5 +1,19 @@
 include("shared.lua");
 
+--sound.PlayURL ( "http://warez.iwillia.ms/garrysmod/output.wav", "", function( station )
+    --if ( IsValid( station ) ) then
+
+        ----station:SetPos( LocalPlayer():GetPos() )
+        --station:SetVolume(1)
+        --station:Play()
+
+    --else
+
+        --LocalPlayer():ChatPrint( "Invalid URL!" )
+
+    --end
+--end )
+
 local hide = {
     CHudHealth      = true,
     CHudCrosshair   = true,

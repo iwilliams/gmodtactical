@@ -66,19 +66,14 @@ function ENT:Initialize()
 
     for k, v in pairs( ents.FindByClass( "npc_template_maker" ) ) do
         if string.find( v:GetName(), self:GetName() ) then
-            table.insert( self.NPCMakers, v )
+            --table.insert( self.NPCMakers, v )
+            self.NPCMakers[v:GetName()] = v
         end
     end
-
-    table.sort( self.NPCMakers, function( a, b )
-        return a:GetName() < b:GetName()
-    end)
-
 
     print( "--- Makers: ---" )
     PrintTable( self.NPCMakers )
 
-    -- Save spawn points
     self.SpawnPoints = ents.FindByName( self:GetName() .. "_spawn_*" )
 
     print ( "--- Spawn Points ---" )
@@ -115,11 +110,11 @@ function ENT:SpawnSquad()
         print( v, v.IsAlive )
         if not v.IsAlive then
             -- Set destination to spawn point
-            self.NPCMakers[level]:Fire("ChangeDestinationGroup", self:GetName() .. "_spawn_" .. k)
+            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire("ChangeDestinationGroup", self:GetName() .. "_spawn_" .. k)
             -- Spawn
-            self.NPCMakers[level]:Fire( "Enable"  )
-            self.NPCMakers[level]:Fire( "Spawn"   )
-            self.NPCMakers[level]:Fire( "Disable" )
+            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Enable"  )
+            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Spawn"   )
+            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Disable" )
         end
     end
 
@@ -232,9 +227,8 @@ function ENT:AcceptInput(inputName, actevator, called, data )
         table.RemoveByValue( self.AliveNPCs, called )
         self.Respawns = self.Respawns + 1
 
-        local siren = ents.FindByName("squad_siren")[1]
-
         if self.Respawns % 5 == 0 then
+            local siren = ents.FindByName("squad_siren")[1]
             siren:Fire('PlaySound')
             timer.Simple(15, function()
                 siren:Fire('FadeOut', 5)
@@ -242,6 +236,12 @@ function ENT:AcceptInput(inputName, actevator, called, data )
                     siren:Fire('StopSound')
                 end)
             end)
+        end
+
+        if self.Respawns >= 2 then
+            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Enable"  )
+            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Spawn"   )
+            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Disable" )
         end
 
         -- Find the spawn point that spawned this NPC
