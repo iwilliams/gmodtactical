@@ -230,7 +230,8 @@ function SWEP:CalcView(ply, pos, ang, fov)
 			self.CurFOVMod = LerpCW20(FT * 10, self.CurFOVMod, 5)
 		else
 			local zoomAmount = self.ZoomAmount
-			local simpleTelescopics = GetConVarNumber("cw_simple_telescopics")
+			--local simpleTelescopics = GetConVarNumber("cw_simple_telescopics")
+			local simpleTelescopics = 0
 			local shouldDelay = false
 			
 			if simpleTelescopics >= 1 then

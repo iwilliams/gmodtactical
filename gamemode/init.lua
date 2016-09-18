@@ -219,7 +219,7 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
     if not inventory then
         inventory = {
             {
-                weapon = 'mgt_hk45',
+                weapon = 'gmt_hk45',
             },
             {
                 weapon = 'weapon_empty_hands',
@@ -227,15 +227,6 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
             {
                 weapon = 'weapon_crowbar',
             },
-            {
-                weapon = 'gmt_ar15',
-            },
-            {
-                weapon = 'gmt_mp5',
-            },
-            {
-                weapon = 'gmt_ak74'
-            }
         }
     end
 
@@ -246,8 +237,8 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
 
     local playerAmmo = {
         {
-            amount = 32,
-            ammo_type = "Pistol"
+            amount = 16,
+            ammo_type = ".45 ACP"
         }
     }
 
