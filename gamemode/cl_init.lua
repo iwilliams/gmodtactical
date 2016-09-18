@@ -18,7 +18,8 @@ local hide = {
     CHudHealth      = true,
     CHudCrosshair   = true,
     CHudAmmo        = true,
-    CHudVoiceStatus = true,
+    CHudVoiceStatus = true
+    --CHudWeaponSelection = true
     --CHudBattery     = true,
     --CHudSecondaryAmmo = true
 }
@@ -30,6 +31,17 @@ local hide = {
 
 hook.Add( "HUDShouldDraw", "gmt_hide_HUD", function( name )
     if ( hide[ name ] ) then return false end
+
+    // allow weapon hiding
+    local ply = LocalPlayer()
+    if IsValid(ply) then
+        local wep = ply:GetActiveWeapon()
+        if IsValid(wep) && wep.HUDShouldDraw then
+            return wep.HUDShouldDraw(wep, name)
+        end
+    end
+
+    return true
 end)
 
 function GM:DrawDeathNotice( x, y )
@@ -63,14 +75,14 @@ function GM:RenderScreenspaceEffects()
     local maxHealth  = player:GetMaxHealth()
     local health     = player:Health()
 
-    if health > 85 then return end
+    --if health > 85 then return end
 
     local percentage = (health/maxHealth)
 
-    local maxBlur = 0.015
+    local maxBlur = 0.005
     local blur = maxBlur - (maxBlur * percentage)
 
-    local maxRed = 0.4
+    local maxRed = 0.1
     local maxColour = .2
 
     local contrast = 1
@@ -80,7 +92,7 @@ function GM:RenderScreenspaceEffects()
         [ "$pp_colour_addr" ] = math.max(maxRed - (maxRed * percentage), 0) * 1.2,
         [ "$pp_colour_addg" ] = 0,
         [ "$pp_colour_addb" ] = 0,
-        [ "$pp_colour_brightness" ] = -.07,
+        [ "$pp_colour_brightness" ] = 0,
         [ "$pp_colour_contrast" ] = contrast,
         [ "$pp_colour_colour" ] = math.max(1 * percentage, 0),
         [ "$pp_colour_mulr" ] = 0,

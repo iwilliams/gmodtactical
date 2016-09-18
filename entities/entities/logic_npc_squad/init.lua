@@ -8,7 +8,7 @@ local SQUAD_WAITING   = 1
 local SQUAD_PATROLING   = 2
 local SQUAD_SEARCHING   = 3
 
-local function GetNPCSchedule( npc )
+function ENT:GetNPCSchedule( npc )
     if ( !IsValid( npc ) ) then return end
     for s = 0, LAST_SHARED_SCHEDULE-1 do
         if ( npc:IsCurrentSchedule( s ) ) then return s end
@@ -17,7 +17,7 @@ local function GetNPCSchedule( npc )
 end
 local pathTable1 = {}
 
-local function GetNPCNumber( npc )
+function ENT:GetNPCNumber( npc )
     return string.Explode("_", npc:GetName() )[4]
 end
 
@@ -66,7 +66,6 @@ function ENT:Initialize()
 
     for k, v in pairs( ents.FindByClass( "npc_template_maker" ) ) do
         if string.find( v:GetName(), self:GetName() ) then
-            --table.insert( self.NPCMakers, v )
             self.NPCMakers[v:GetName()] = v
         end
     end
@@ -135,7 +134,7 @@ function ENT:Think()
 
             timer.Simple(1, function()
                 for k, npc in pairs(self.AliveNPCs) do
-                    self:SendNPCToPoint( npc, self:GetName() .. "_path_" .. GetNPCNumber(npc) .. "_1" )
+                    self:SendNPCToPoint( npc, self:GetName() .. "_path_" .. self:GetNPCNumber(npc) .. "_1" )
                 end
             end)
 
@@ -154,7 +153,7 @@ function ENT:Think()
                 for k, v in pairs(self.AliveNPCs) do
                     if v:IsNPC() then
 
-                        local npcSchedule = GetNPCSchedule( v )
+                        local npcSchedule = self:GetNPCSchedule( v )
 
                         if npcSchedule == SCHED_IDLE_STAND then
                             print( v:GetName() .. " status: SCHED_IDLE_STAND" )
@@ -186,7 +185,85 @@ function ENT:Think()
 
 end
 
-function ENT:AcceptInput(inputName, actevator, called, data )
+function ENT:OnLostPlayer(activator, called, data)
+end
+
+function ENT:OnLostEnemy(activator, called, data)
+    print( "---- " .. called:GetName() .. " OnLostEnemy ----" )
+end
+
+function ENT:OnSpawnNPC(activator, called, data)
+    local kv = called:GetKeyValues()
+
+    if kv["classname"] == "info_npc_spawn_destination" then
+        local npc = ents.FindByName( kv["RenameNPC"] )[1]
+        npc.Name = kv["RenameNPC"]
+
+        print( "Renaming npc " .. kv["RenameNPC"] )
+
+        npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
+
+        called.IsAlive = true
+
+        table.insert( self.AliveNPCs, npc )
+    end
+end
+
+function ENT:OnDeath(activator, called, data)
+    table.RemoveByValue( self.AliveNPCs, called )
+    self.Respawns = self.Respawns + 1
+
+    if self.Respawns % 5 == 0 then
+        local siren = ents.FindByName("squad_siren")[1]
+        siren:Fire('PlaySound')
+        timer.Simple(15, function()
+            siren:Fire('FadeOut', 5)
+            timer.Simple(5, function()
+                siren:Fire('StopSound')
+            end)
+        end)
+    end
+
+    if self.Respawns >= 25 and not self.helicopterSpawned then
+        self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Enable"  )
+        self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Spawn"   )
+        self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Disable" )
+        self.helicopterSpawned = true
+    end
+
+    -- Find the spawn point that spawned this NPC
+    for k, point in pairs( self.SpawnPoints ) do
+        local pointKeyValues = point:GetKeyValues()
+
+        if called.Name == pointKeyValues["RenameNPC"] then
+            point.IsAlive = false
+            return
+        end
+    end
+end
+
+function ENT:OnPathEnd(activator, called, data)
+    local npcName   = data
+    local npc       = ents.FindByName( npcName )[1]
+
+    npc.pathDone = true
+
+    local allDone = true
+    for k, v in pairs(self.AliveNPCs) do
+        allDone = allDone && v.pathDone
+    end
+
+    if allDone then
+        return self:ChangeState( SQUAD_UNSPAWNED )
+    end
+end
+
+function ENT:PlayerDeath(victim, attacker)
+    self.Respawns = self.Respawns - 1
+    if self.Respawns < 0 then self.Respawns = 0 end
+end
+
+function ENT:AcceptInput(inputName, activator, called, data )
     if true then
         print("-----------")
         print("AcceptInput")
@@ -199,77 +276,24 @@ function ENT:AcceptInput(inputName, actevator, called, data )
 
     -- NPC lost player
     if inputName == "OnLostPlayer" then
+        self:OnLostPlayer(activator, called, data)
     end
 
     if inputName == "OnLostEnemy" then
-        print( "---- " .. called:GetName() .. " OnLostEnemy ----" )
+        self:OnLostEnemy(activator, called, data)
     end
 
     -- NPC Spawner Spawned NPC
     if inputName == "OnSpawnNPC" then
-        local kv = called:GetKeyValues()
-
-        if kv["classname"] == "info_npc_spawn_destination" then
-            local npc = ents.FindByName( kv["RenameNPC"] )[1]
-            npc.Name = kv["RenameNPC"]
-
-            print( "Renaming npc " .. kv["RenameNPC"] )
-
-            npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
-
-            called.IsAlive = true
-
-            table.insert( self.AliveNPCs, npc )
-        end
+        self:OnSpawnNPC(activator, called, data)
     end
 
     if inputName == "OnDeath" then
-        table.RemoveByValue( self.AliveNPCs, called )
-        self.Respawns = self.Respawns + 1
-
-        if self.Respawns % 5 == 0 then
-            local siren = ents.FindByName("squad_siren")[1]
-            siren:Fire('PlaySound')
-            timer.Simple(15, function()
-                siren:Fire('FadeOut', 5)
-                timer.Simple(5, function()
-                    siren:Fire('StopSound')
-                end)
-            end)
-        end
-
-        if self.Respawns >= 2 then
-            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Enable"  )
-            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Spawn"   )
-            self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Disable" )
-        end
-
-        -- Find the spawn point that spawned this NPC
-        for k, point in pairs( self.SpawnPoints ) do
-            local pointKeyValues = point:GetKeyValues()
-
-            if called.Name == pointKeyValues["RenameNPC"] then
-                point.IsAlive = false
-                return
-            end
-        end
-
+        self:OnDeath(activator, called, data)
     end
 
     if inputName == "OnPathEnd" then
-        local npcName   = data
-        local npc       = ents.FindByName( npcName )[1]
-
-        npc.pathDone = true
-
-        local allDone = true
-        for k, v in pairs(self.AliveNPCs) do
-            allDone = allDone && v.pathDone
-        end
-
-        if allDone then
-            return self:ChangeState( SQUAD_UNSPAWNED )
-        end
+        self:OnPathEnd(activator, called, data)
     end
 end
 
