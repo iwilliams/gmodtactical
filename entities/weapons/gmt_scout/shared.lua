@@ -170,7 +170,7 @@ SWEP.Sounds = {draw = {{time = 0.2, sound = "CW_BER_SCOOT_DRAW"}},
 
 SWEP.SpeedDec = 15
 
-SWEP.Slot = 3
+SWEP.Slot = 2
 SWEP.SlotPos = 0
 SWEP.NormalHoldType = "ar2"
 SWEP.RunHoldType = "passive"

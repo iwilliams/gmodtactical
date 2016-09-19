@@ -203,6 +203,12 @@ function ENT:OnSpawnNPC(activator, called, data)
 
         npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
 
+        for _, ply in pairs( player.GetHumans() ) do
+            if ply:Alive() then
+                npc:AddEntityRelationship( ply, GMT:PlayerNPCRelationship( ply, npc ), 99 )
+            end
+        end
+
         called.IsAlive = true
 
         table.insert( self.AliveNPCs, npc )
@@ -215,13 +221,15 @@ function ENT:OnDeath(activator, called, data)
 
     if self.Respawns % 5 == 0 then
         local siren = ents.FindByName("squad_siren")[1]
-        siren:Fire('PlaySound')
-        timer.Simple(15, function()
-            siren:Fire('FadeOut', 5)
-            timer.Simple(5, function()
-                siren:Fire('StopSound')
+        if IsValid(siren) then
+            siren:Fire('PlaySound')
+            timer.Simple(15, function()
+                siren:Fire('FadeOut', 5)
+                timer.Simple(5, function()
+                    siren:Fire('StopSound')
+                end)
             end)
-        end)
+        end
     end
 
     if self.Respawns >= 50 and not self.helicopterSpawned then

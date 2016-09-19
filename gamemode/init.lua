@@ -44,11 +44,11 @@ end
 
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    if ply:IsSuperAdmin() then
+    --if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    end
-    --return true
-    return ply:IsSuperAdmin()
+    --end
+    return true
+    --return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
@@ -131,6 +131,20 @@ end )
 
 local function PlayerSpawn( ply )
     ply.UseWeaponSpawn = CurTime()
+
+
+    ply.Factions = {
+        combine = -5,
+        rebel   = 2
+    }
+
+    ply.LastHi = CurTime()
+
+    for _, npc in pairs( ents.FindByClass( "npc_*" ) ) do
+        if IsValid(npc) and npc:IsNPC() then
+            npc:AddEntityRelationship( ply, GMT:PlayerNPCRelationship( ply, npc ), 99 )
+        end
+    end
 end
 hook.Add( "PlayerSpawn", "UseWeapon", PlayerSpawn )
 
@@ -169,6 +183,52 @@ function GMT:ScheduleDespawn(ent)
             ent:Remove()
         end
     end)
+end
+
+function GMT:NPCGetFaction ( npc )
+    local faction = ""
+    if     npc:GetClass()       == "npc_combine_s" or npc:GetClass() == "npc_metropolice" then faction = "combine"
+    elseif npc:GetClass()   == "npc_citizen" then faction = "rebel" end
+
+    return faction
+end
+
+function GMT:PlayerNPCRelationship( player, npc )
+    local faction = GMT:NPCGetFaction ( npc )
+
+    if faction == "" then return D_NU end
+
+    if player.Factions[faction] < 0 then
+        return D_HT
+    end
+
+    if player.Factions[faction] > 0 then
+        return D_LI
+    end
+
+    return D_NU
+end
+
+function GMT:PlayerKillNPC( ply, npc )
+    local faction = GMT:NPCGetFaction( npc )
+
+    if faction == "combine" then
+        ply.Factions.combine = ply.Factions.combine - 5
+    end
+
+    if faction == "rebel" then
+        ply.Factions.rebel   = ply.Factions.rebel - 2
+        ply.Factions.combine = ply.Factions.combine + 2
+    end
+
+    for _, npc in pairs( ents.FindByClass( "npc_*" ) ) do
+        if IsValid(npc) and npc:IsNPC() then
+            npc:AddEntityRelationship( ply, GMT:PlayerNPCRelationship( ply, npc ), 99 )
+        end
+    end
+
+    print( "Player allignment: ", ply )
+    PrintTable( ply.Factions )
 end
 
 
@@ -306,6 +366,9 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
 end)
 
 hook.Add("OnNPCKilled", "gmt_npc_killed", function( npc, attacker, inflictor )
+    if IsValid( attacker ) and attacker:IsPlayer() then
+        GMT:PlayerKillNPC( attacker, npc )
+    end
 end)
 
 hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim, inflictor, attacker )

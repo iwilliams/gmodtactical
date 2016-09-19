@@ -18,8 +18,8 @@ local hide = {
     CHudHealth      = true,
     CHudCrosshair   = true,
     CHudAmmo        = true,
-    CHudVoiceStatus = true
-    --CHudWeaponSelection = true
+    CHudVoiceStatus = true,
+    CHudWeaponSelection = true
     --CHudBattery     = true,
     --CHudSecondaryAmmo = true
 }

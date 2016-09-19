@@ -361,7 +361,7 @@ SWEP.BipodFireAnim = true
 SWEP.AimBreathingIntensity = 1
 SWEP.AimBreathingEnabled = true
 
-SWEP.Slot = 3
+SWEP.Slot = 2
 SWEP.SlotPos = 0
 SWEP.NormalHoldType = "ar2"
 SWEP.RunHoldType = "passive"

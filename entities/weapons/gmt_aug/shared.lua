@@ -184,7 +184,7 @@ SWEP.Sounds = {draw = {{time = 0, sound = "CW_FOLEY_LIGHT"}},
 
 SWEP.SpeedDec = 15
 
-SWEP.Slot = 3
+SWEP.Slot = 2
 SWEP.SlotPos = 0
 SWEP.NormalHoldType = "smg"
 SWEP.RunHoldType = "passive"

@@ -148,7 +148,7 @@ end
 
 SWEP.SpeedDec = 10
 
-SWEP.Slot = 3
+SWEP.Slot = 1
 SWEP.SlotPos = 0
 SWEP.NormalHoldType = "smg"
 SWEP.RunHoldType = "normal"
