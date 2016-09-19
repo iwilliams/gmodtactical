@@ -4,6 +4,9 @@ AddCSLuaFile("sh_sounds.lua")
 include("sh_sounds.lua")
 
 if CLIENT then
+    SWEP.YawLimit   = 15 
+    SWEP.PitchLimit = 15 
+
     SWEP.DrawCrosshair = false
     SWEP.PrintName = "PKM"
     SWEP.CSMuzzleFlashes = true

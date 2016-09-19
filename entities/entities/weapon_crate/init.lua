@@ -49,11 +49,11 @@ function ENT:Destruct()
 end
 
 function ENT:Use(activator, caller)
-    local damage = DamageInfo()
-    damage:AddDamage( 10 )
-    damage:SetAttacker( caller )
-    self:GibBreakClient( Vector(1, 1, 1) )
-    self:OnTakeDamage( damage )
+    --local damage = DamageInfo()
+    --damage:AddDamage( 10 )
+    --damage:SetAttacker( caller )
+    --self:GibBreakClient( Vector(1, 1, 1) )
+    --self:OnTakeDamage( damage )
 end
 
 function ENT:canUse(owner, activator)

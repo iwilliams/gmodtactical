@@ -44,11 +44,11 @@ end
 
 -- DELET THIS
 hook.Add( "PlayerNoClip", "NoClipCheck", function(ply, noclip)
-    --if ply:IsSuperAdmin() then
+    if ply:IsSuperAdmin() then
         ply:SetNoTarget(noclip)
-    --end
-    return true
-    --return ply:IsSuperAdmin()
+    end
+    --return true
+    return ply:IsSuperAdmin()
 end)
 
 function GM:OnNPCKilled( victim, killer, weapon )
@@ -62,6 +62,10 @@ function GM:OnNPCKilled( victim, killer, weapon )
         if wepName == "m9k_mp5"     then wepName = "gmt_mp5"    end
         if wepName == "m9k_m416"    then wepName = "gmt_hk416"  end
         if wepName == "m9k_m249lmg" then wepName = "gmt_pkm"    end
+        if wepName == "m9k_m4a1"    then wepName = "gmt_ar15"   end
+        if wepName == "m9k_auga3"   then wepName = "gmt_aug"    end
+        if wepName == "m9k_ak74"    then wepName = "gmt_ak74"   end
+        if wepName == "m9k_mp7"     then wepName = "gmt_mp7"    end
 
         local newWep = ents.Create( wepName )
         if IsValid(newWep) then
@@ -234,6 +238,9 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
                 weapon = 'weapon_crowbar'
             },
             --{
+                --weapon = 'gmt_m16'
+            --},
+            --{
                 --weapon = 'gmt_ak74'
             --},
             --{
@@ -278,7 +285,15 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
         {
             amount = 16,
             ammo_type = ".45 ACP"
-        }
+        },
+        --{
+            --amount = 100,
+            --ammo_type = "7.62x51MM"
+        --},
+        --{
+            --amount = 100,
+            --ammo_type = "5.7x28MM"
+        --}
     }
 
     if playerAmmo then

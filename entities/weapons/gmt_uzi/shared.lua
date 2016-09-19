@@ -7,7 +7,7 @@ include("sh_sounds.lua")
 SWEP.magType = "smgMag"
 
     game.AddParticles("particles/contempt/ber_muzzle.pcf")
-    
+
     PrecacheParticleSystem("ber_pistol_large")
     PrecacheParticleSystem("ber_pistol_med")
     PrecacheParticleSystem("ber_pistol_small")
@@ -24,11 +24,11 @@ if CLIENT then
     SWEP.PrintName = "UZI"
     SWEP.CSMuzzleFlashes = true
     SWEP.ViewModelMovementScale = 1
-    
+
     SWEP.IconLetter = "w"
     killicon.Add("cw_ber_uzi", "weaponicons/uzi-k", Color(255, 80, 0, 150))
     SWEP.SelectIcon = surface.GetTextureID("weaponicons/select/imi2")
-    
+
     SWEP.MuzzleEffect = "ber_rifle_small"
     SWEP.PosBasedMuz = true
     SWEP.SnapToGrip = true
@@ -37,7 +37,7 @@ if CLIENT then
     SWEP.Shell = "smallshell"
     SWEP.ShellPosOffset = {x = 2, y = 0, z = 0}
     SWEP.FireMoveMod = 1
-    
+
     SWEP.DrawTraditionalWorldModel = false
     SWEP.WM = "models/weapons/w_dber_uzir.mdl"
     SWEP.WMPos = Vector(-1.5, 0, 0)
@@ -60,7 +60,7 @@ if CLIENT then
 
     SWEP.AlternativePos = Vector(0.239, 1.157, 0.039)
     SWEP.AlternativeAng = Vector(0, 0, 0)
-    
+
     SWEP.CustomizationMenuScale = 0.015
 
     SWEP.AttachmentModelsVM = {
@@ -68,9 +68,9 @@ if CLIENT then
     }
 
     SWEP.LuaVMRecoilAxisMod = {vert = 1.5, hor = 2, roll = 1, forward = 1, pitch = 1}
-    
+
     SWEP.LaserPosAdjust = Vector(0.2, -2, -0.8)
-    SWEP.LaserAngAdjust = Angle(0, 0, 0) 
+    SWEP.LaserAngAdjust = Angle(0, 0, 0)
 end
 
 
@@ -83,7 +83,7 @@ SWEP.LuaViewmodelRecoil = false
 
 function SWEP:drawAnimFunc()
 self:sendWeaponAnim("drew",self.ReloadSpeed,0)
-end 
+end
 
 SWEP.StockBGs = {main = 3, folded = 1, unfolded = 0}
 
@@ -102,19 +102,19 @@ SWEP.Animations = {fire = {"mac10_fire", "mac10_fire2", "mac10_fire3"},
     idle = "mac10_idle",
     draw = "mac10_draw",
     drew = "mac10_drew"}
-    
+
     SWEP.Sounds = {mac10_draw = {{time = 0.2, sound = "CW_FOLEY_LIGHT"},
     {time = 0.4, sound = "CW_BER_UZI_HIT"},
     {time = 0.89, sound = "CW_BER_UZI_STOCK"},
     {time = 1, sound = "CW_FOLEY_LIGHT"}},
-    
+
     mac10_drew = {{time = 0, sound = "CW_BER_UZI_DRAW"}},
-    
+
     mac10_reload = {{time = 0.2, sound = "CW_FOLEY_LIGHT"},
     {time = 0.4, sound = "CW_BER_UZI_MAGOUT"},
     {time = 1.7, sound = "CW_BER_UZI_MAGIN"},
     {time = 2.2, sound = "CW_FOLEY_LIGHT"}},
-    
+
     mac10_reload_empty = {{time = 0.4, sound = "CW_FOLEY_LIGHT"},
     {time = 0.6, sound = "CW_BER_UZI_BOLTBACK"},
     {time = 0.7, sound = "CW_BER_UZI_BOLTFORWARD"},

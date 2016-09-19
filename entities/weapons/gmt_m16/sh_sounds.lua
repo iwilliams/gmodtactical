@@ -1,0 +1,10 @@
+CustomizableWeaponry:addFireSound("CW_M16A1_FIRE", {"weapons/cwm16a1/M16-1.wav","weapons/cwm16a1/M16-2.wav","weapons/cwm16a1/M16-3.wav"}, 1, 115, CHAN_STATIC)
+CustomizableWeaponry:addFireSound("CW_M16A1_FIRE_SHORT", {"weapons/cwm16a1/M4-1.wav","weapons/cwm16a1/M4-2.wav","weapons/cwm16a1/M4-3.wav"}, 1, 110, CHAN_STATIC)
+
+CustomizableWeaponry:addReloadSound("CW_M16A1_DEPLOY", "weapons/cwm16a1/M16_Deploy.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_FOLEY", "weapons/cwm16a1/M16_Foley.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_SHOULDER", "weapons/cwm16a1/M16_Shoulder.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_MAGOUT", "weapons/cwm16a1/M16_Magout.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_MAGIN", "weapons/cwm16a1/M16_Magin.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_BOLTRELEASE", "weapons/cwm16a1/M16_Boltrelease.wav")
+CustomizableWeaponry:addReloadSound("CW_M16A1_BOLTPULL", "weapons/cwm16a1/M16_Boltpull.wav")

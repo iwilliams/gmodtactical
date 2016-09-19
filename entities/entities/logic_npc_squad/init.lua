@@ -100,9 +100,9 @@ function ENT:SpawnSquad()
     local level
 
     if not self.Respawns      then level = 1
-    elseif self.Respawns < 5  then level = 1
-    elseif self.Respawns < 10 then level = 2
-    elseif self.Respawns < 15 then level = 3
+    elseif self.Respawns < 10  then level = 1
+    elseif self.Respawns < 20 then level = 2
+    elseif self.Respawns < 40 then level = 3
     else level = 4 end
 
     for k, v in pairs( self.SpawnPoints ) do
@@ -224,7 +224,7 @@ function ENT:OnDeath(activator, called, data)
         end)
     end
 
-    if self.Respawns >= 25 and not self.helicopterSpawned then
+    if self.Respawns >= 50 and not self.helicopterSpawned then
         self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Enable"  )
         self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Spawn"   )
         self.NPCMakers[self:GetName() .. "_maker_helicopter"]:Fire( "Disable" )

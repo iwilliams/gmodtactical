@@ -21,6 +21,10 @@ include("sh_sounds.lua")
     PrecacheParticleSystem("ber_sniper")
 
 if CLIENT then
+    SWEP.YawLimit   = 20
+    SWEP.PitchLimit = 20
+    SWEP.mouseImpendance = .80
+
     SWEP.DrawCrosshair = false
     SWEP.PrintName = "Scout"
     SWEP.CSMuzzleFlashes = true
@@ -200,7 +204,7 @@ SWEP.Recoil = 0.7
 
 SWEP.Chamberable = false
 
-SWEP.HipSpread = 0.06
+SWEP.HipSpread = 0.000001
 SWEP.AimSpread = 0.000001
 SWEP.VelocitySensitivity = 1.7
 SWEP.MaxSpreadInc = 0.04

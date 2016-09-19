@@ -43,7 +43,7 @@ function SWEP:getFreeAimDotToCenter()
 	local dist = self:getFreeAimToCenter()
 
 	--return dist / (GetConVarNumber("cw_freeaim_yawlimit") + GetConVarNumber("cw_freeaim_pitchlimit"))
-	return dist / (20)
+	return dist / (self.YawLimit + self.PitchLimit)
 end
 
 SWEP.freeAimAutoCenterSpeed = 6
@@ -142,9 +142,9 @@ function SWEP:CalcView(ply, pos, ang, fov)
 		local pitchDiff = math.AngleDifference(self.lastEyeAngle.p, ang.p)
 
 		--local yawLimit = GetConVarNumber("cw_freeaim_yawlimit")
-		local yawLimit = 10
+		local yawLimit = self.YawLimit
 		--local pitchLimit = GetConVarNumber("cw_freeaim_pitchlimit")
-		local pitchLimit = 10
+		local pitchLimit = self.PitchLimit
 
 		if yawDiff >= yawLimit then
 			self.lastEyeAngle.y = math.NormalizeAngle(ang.y + yawLimit)
@@ -489,7 +489,8 @@ function SWEP:AdjustMouseSensitivity()
 		local dist = math.abs(self:getFreeAimDotToCenter())
 
 		--local mouseImpendance = GetConVarNumber("cw_freeaim_center_mouse_impendance")
-		local mouseImpendance = .40
+        local mouseImpendance = self.mouseImpendance
+        --local mouseImpendance =  .8
 		freeAimMod = 1 - (mouseImpendance - mouseImpendance * dist)
 	end
 

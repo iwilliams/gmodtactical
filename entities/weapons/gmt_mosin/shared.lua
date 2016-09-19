@@ -3,7 +3,10 @@ AddCSLuaFile("sh_sounds.lua")
 include("sh_sounds.lua")
 //SCK name: mosin
 if CLIENT then
-    SWEP.DrawCrosshair = false
+    SWEP.YawLimit   = 20
+    SWEP.PitchLimit = 20
+    SWEP.mouseImpendance = .80
+
     SWEP.PrintName = "Mosin–Nagant"
     SWEP.CSMuzzleFlashes = true
     SWEP.ViewModelMovementScale = 1.15
