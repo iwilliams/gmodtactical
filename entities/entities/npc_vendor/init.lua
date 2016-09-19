@@ -12,16 +12,12 @@ function ENT:Initialize()
 end
 
 function ENT:PlayerUse( player )
-    print( "give player weap", player )
-
     local wep = ents.Create( "gmt_ak74" )
     wep:SetPos( self:GetPos() )
     wep:Spawn()
-    --player:Give( "gmt_ak74" )
 end
 
 function ENT:AcceptInput( inputName, activator, called, data)
     print( "vendor input:", inputName, activator, called, data )
-
     if inputName == "Use" then self:PlayerUse( called ) end
 end
