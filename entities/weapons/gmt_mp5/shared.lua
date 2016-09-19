@@ -7,10 +7,10 @@ if CLIENT then
 	SWEP.PrintName = "HK MP5"
 	SWEP.CSMuzzleFlashes = true
 	SWEP.ViewModelMovementScale = 1.15
-	
+
 	SWEP.IconLetter = "x"
 	killicon.AddFont("cw_mp5", "CW_KillIcons", SWEP.IconLetter, Color(255, 80, 0, 150))
-	
+
 	SWEP.MuzzleEffect = "muzzleflash_smg"
 	SWEP.PosBasedMuz = false
 	SWEP.SnapToGrip = true
@@ -21,48 +21,48 @@ if CLIENT then
 	SWEP.ForeGripOffsetCycle_Draw = 0
 	SWEP.ForeGripOffsetCycle_Reload = 0.8
 	SWEP.ForeGripOffsetCycle_Reload_Empty = 0.87
-	
+
 	SWEP.IronsightPos = Vector(2.032, -3.323, 0.759)
 	SWEP.IronsightAng = Vector(0.388, -0.051, 0)
-	
+
 	-- MP5SD variant ironsight pos
 	SWEP.SDPos = Vector(2.032, -3.323, 0.759)
 	SWEP.SDAng = Vector(0.338, -0.005, 0)
-		
+
 	-- MP5K variant ironsight pos
 	SWEP.KPos = Vector(2.032, -3.323, 0.759)
 	SWEP.KAng = Vector(0.187, -0.005, 0)
 
 	SWEP.MicroT1Pos = Vector(2.042, -0.2, 0.66)
-	SWEP.MicroT1Ang = Vector(-1.668, 0, 0)	
-		
+	SWEP.MicroT1Ang = Vector(-1.668, 0, 0)
+
 	SWEP.EoTechPos = Vector(2.042, -5.042, 0.014)
 	SWEP.EoTechAng = Vector(0, 0, 0)
-	
+
 	SWEP.AimpointPos = Vector(2.03, -5.14, 0.171)
 	SWEP.AimpointAng = Vector(0, 0, 0)
-	
+
 	SWEP.ACOGPos = Vector(2.028, -5.613, -0.113)
 	SWEP.ACOGAng = Vector(0, 0, 0)
-	
+
 	SWEP.SprintPos = Vector(-4.444, -1, 0.082)
 	SWEP.SprintAng = Vector(-12.849, -39.23, 0)
 
 	SWEP.CustomizePos = Vector(-8.174, -1.27, -1.288)
 	SWEP.CustomizeAng = Vector(17.954, -40.578, -18.357)
-	
+
 	SWEP.AlternativePos = Vector(0, 1.325, -0.801)
 	SWEP.AlternativeAng = Vector(0, 0, 0)
-		
+
 	SWEP.ShortDotPos = Vector(2.009, -5.844, 0.263)
 	SWEP.ShortDotAng = Vector(0, 0, 0)
-	
+
 	SWEP.BackupSights = {["md_acog"] = {[1] = Vector(2.028, -5.613, -1.124), [2] = Vector(0, 0, 0)}}
 
 	SWEP.LuaVMRecoilAxisMod = {vert = 1.5, hor = 3, roll = 1, forward = 1, pitch = 1}
 	SWEP.SchmidtShortDotAxisAlign = {right = 0, up = 0, forward = 0}
 	SWEP.ACOGAxisAlign = {right = 0, up = 0, forward = 0}
-	
+
 	SWEP.SprintViewNormals = {x = 1, y = -1, z = 1}
 
 	SWEP.AttachmentModelsVM = {
@@ -73,13 +73,13 @@ if CLIENT then
 		["md_tundra9mm"] = {model = "models/cw2/attachments/9mmsuppressor.mdl", bone = "gun", pos = Vector(-0.038, -12.216, 0.305), angle = Angle(0, 0, 0), size = Vector(0.8, 0.8, 0.8)},
 		["md_schmidt_shortdot"] = {model = "models/cw2/attachments/schmidt.mdl", bone = "gun", pos = Vector(0.224, 3.98, -1.884), angle = Angle(0, 90, 0), size = Vector(0.8, 0.8, 0.8), color = Color(255, 255, 255, 255)}
 	}
-	
+
 	SWEP.ForegripOverridePos = {
 		["bg_mp5_sdbarrel"] = {
 			["Bip01 R Finger02"] = {pos = Vector(0, 0, 0), angle = Angle(-4.029, 14.069, 0) },
 			["Bip01 R Finger0"] = {pos = Vector(0, 0, 0), angle = Angle(0, -8.988, 0) }
 		},
-		
+
 		["bg_mp5_kbarrel"] = {
 			["Bip01 R Hand"] = {pos = Vector(0, 0, 0), angle = Angle(0.263, 23.951, -31.754) },
 			["Bip01 R Finger2"] = {pos = Vector(0, 0, 0), angle = Angle(-0.894, 32.728, 3.026) },
@@ -97,7 +97,7 @@ if CLIENT then
 			["Bip01 R Finger42"] = {pos = Vector(0, 0, 0), angle = Angle(0, 67.799, 0) }
 		}
 	}
-	
+
 	SWEP.AttachmentPosDependency = {["md_tundra9mm"] = {["bg_mp5_kbarrel"] = Vector(-0.038, -10.749, 0.324)}}
 
 	SWEP.LaserPosAdjust = {x = 1, y = 0, z = 0}
@@ -126,12 +126,12 @@ SWEP.Animations = {fire = {"shoot1", "shoot2"},
 	reload_empty = "reloadempty",
 	idle = "idle",
 	draw = "draw"}
-	
+
 SWEP.Sounds = {draw = {{time = 0, sound = "CW_FOLEY_MEDIUM"}},
 
 	reloadfull = {[1] = {time = 1.1, sound = "CW_MP5_MAGOUT"},
 	[2] = {time = 1.4, sound = "CW_MP5_MAGIN"}},
-	
+
 	reloadempty = {[1] = {time = 0.4, sound = "CW_MP5_BOLTBACK"},
 	[2] = {time = 1.5, sound = "CW_MP5_MAGOUT"},
 	[3] = {time = 1.8, sound = "CW_MP5_MAGIN"},
@@ -177,7 +177,7 @@ SWEP.MaxSpreadInc = 0.03
 SWEP.SpreadPerShot = 0.005
 SWEP.SpreadCooldown = 0.13
 SWEP.Shots = 1
-SWEP.Damage = 20
+SWEP.Damage = 40 
 SWEP.DeployTime = 0.8
 
 SWEP.ReloadSpeed = 1.3

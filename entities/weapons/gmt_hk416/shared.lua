@@ -443,7 +443,7 @@ if CustomizableWeaponry then
     SWEP.SpreadPerShot = 0.007
     SWEP.SpreadCooldown = 0.13
     SWEP.Shots = 1
-    SWEP.Damage = 52
+    SWEP.Damage = 60
     SWEP.DeployTime = 0.6
 
     SWEP.ReloadSpeed = 1

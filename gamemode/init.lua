@@ -57,6 +57,12 @@ function GM:OnNPCKilled( victim, killer, weapon )
 
     if IsValid( wep ) then
         local wepName = string.sub(wep:GetClass(), 5)
+
+        if wepName == "m9k_usp"     then wepName = "gmt_hk45"   end
+        if wepName == "m9k_mp5"     then wepName = "gmt_mp5"    end
+        if wepName == "m9k_m416"    then wepName = "gmt_hk416"  end
+        if wepName == "m9k_m249lmg" then wepName = "gmt_pkm"    end
+
         local newWep = ents.Create( wepName )
         if IsValid(newWep) then
             newWep:SetPos(victim:GetPos() + Vector(0,0,64))
@@ -219,14 +225,47 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
     if not inventory then
         inventory = {
             {
-                weapon = 'gmt_hk45',
+                weapon = 'gmt_hk45'
             },
             {
-                weapon = 'weapon_empty_hands',
+                weapon = 'weapon_empty_hands'
             },
             {
-                weapon = 'weapon_crowbar',
+                weapon = 'weapon_crowbar'
             },
+            --{
+                --weapon = 'gmt_ak74'
+            --},
+            --{
+                --weapon = 'gmt_ar15'
+            --},
+            --{
+                --weapon = 'gmt_aug'
+            --},
+            --{
+                --weapon = 'gmt_hk416'
+            --},
+            --{
+                --weapon = 'gmt_mosin'
+            --},
+            --{
+                --weapon = 'gmt_mp5'
+            --},
+            --{
+                --weapon = 'gmt_mp7'
+            --},
+            --{
+                --weapon = 'gmt_p90'
+            --},
+            --{
+                --weapon = 'gmt_pkm'
+            --},
+            --{
+                --weapon = 'gmt_scout'
+            --},
+            --{
+                --weapon = 'gmt_uzi'
+            --}
         }
     end
 

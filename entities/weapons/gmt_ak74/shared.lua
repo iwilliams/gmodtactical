@@ -6,36 +6,36 @@ if CLIENT then
 	SWEP.DrawCrosshair = false
 	SWEP.PrintName = "AK-74"
 	SWEP.CSMuzzleFlashes = true
-	
+
 	SWEP.IronsightPos = Vector(-2.441, -3.83, 0.908)
 	SWEP.IronsightAng = Vector(0.21, -0.401, 0)
-	
+
 	SWEP.AimpointPos = Vector(-2.371, -2.59, -0.925)
 	SWEP.AimpointAng = Vector(0, 0, 0)
-	
+
 	SWEP.EoTechPos = Vector(-2.4, -3.493, -0.98)
 	SWEP.EoTechAng = Vector(0, 0, 0)
-	
+
 	SWEP.KobraPos = Vector(-2.55, -3.224, -0.026)
 	SWEP.KobraAng = Vector(0.717, -0.638, 0)
-	
+
 	SWEP.ShortenedPos = Vector(-2.428, -4.005, 0.815)
 	SWEP.ShortenedAng = Vector(0, -0.036, 0)
-	
+
 	SWEP.RPKPos = Vector(-2.418, -3.481, 0.93)
 	SWEP.RPKAng = Vector(0.125, -0.25, 0)
-	
+
 	SWEP.PSOPos = Vector(-2.5, 0.65, -0.101)
 	SWEP.PSOAng = Vector(0, 0, 0)
-	
+
 	SWEP.AlternativePos = Vector(-0.24, 0, -0.48)
 	SWEP.AlternativeAng = Vector(0, 0, 0)
 
 	SWEP.ViewModelMovementScale = 1.15
-	
+
 	SWEP.IconLetter = "b"
 	killicon.AddFont("cw_ak74", "CW_KillIcons", SWEP.IconLetter, Color(255, 80, 0, 150))
-	
+
 	SWEP.MuzzleEffect = "muzzleflash_ak74"
 	SWEP.PosBasedMuz = false
 	SWEP.ShellScale = 0.7
@@ -45,7 +45,7 @@ if CLIENT then
 	SWEP.ForeGripOffsetCycle_Draw = 0
 	SWEP.ForeGripOffsetCycle_Reload = 0.65
 	SWEP.ForeGripOffsetCycle_Reload_Empty = 0.9
-	
+
 	SWEP.BoltBone = "ak74_Bolt"
 	SWEP.BoltShootOffset = Vector(-3.6, 0, 0)
 	SWEP.OffsetBoltOnBipodShoot = true
@@ -79,7 +79,7 @@ if CLIENT then
 		["Left14"] = {pos = Vector(0, 0, 0), angle = Angle(14.432, -4.611, 0) },
 		["Left2"] = {pos = Vector(0, 0, 0), angle = Angle(0, 40.631, 0) },
 		["Left_U_Arm"] = {pos = Vector(2.54, 0.004, 0), angle = Angle(0, 0, 0) }}
-		
+
 	SWEP.PSO1AxisAlign = {right = 0, up = 0.4, forward = -90}
 	SWEP.SchmidtShortDotAxisAlign = {right = 0, up = -0.4, forward = 0}
 	SWEP.AttachmentPosDependency = {["md_pbs1"] = {["bg_ak74_rpkbarrel"] = Vector(-28, 0, -0.816), ["bg_ak74_ubarrel"] = Vector(-14, 0, -0.88)}}
@@ -110,7 +110,7 @@ SWEP.Animations = {fire = {"fire1", "fire2", "fire3"},
 	reload = "reload",
 	idle = "idle",
 	draw = "draw"}
-	
+
 SWEP.Sounds = {	draw = {{time = 0, sound = "CW_FOLEY_MEDIUM"}},
 
 	reload = {[1] = {time = 0.33, sound = "CW_AK74_MAGOUT"},
@@ -157,7 +157,7 @@ SWEP.MaxSpreadInc = 0.05
 SWEP.SpreadPerShot = 0.007
 SWEP.SpreadCooldown = 0.13
 SWEP.Shots = 1
-SWEP.Damage = 43
+SWEP.Damage = 55
 SWEP.DeployTime = 0.6
 
 SWEP.ReloadSpeed = 0.7

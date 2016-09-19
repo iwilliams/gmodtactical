@@ -652,7 +652,8 @@ function SWEP:canUseComplexTelescopics()
 		return true
 	end
 	
-	return GetConVarNumber("cw_simple_telescopics") <= 0
+	--return GetConVarNumber("cw_simple_telescopics") <= 0
+	return true
 end
 
 function SWEP:canUseSimpleTelescopics()
