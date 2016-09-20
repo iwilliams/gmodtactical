@@ -84,7 +84,6 @@ hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
 
     local activeWep = ply:GetActiveWeapon()
 
-
     -- walk over wepon to get ammo
     if IsValid(activeWep) and IsValid(wep) and activeWep:GetPrimaryAmmoType() == wep:GetPrimaryAmmoType() then
         local ammoCount1 = wep:Clip1()

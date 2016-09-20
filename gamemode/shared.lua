@@ -40,6 +40,25 @@ hook.Add( "StartCommand", "Disable Jumping", function( ply, cmd )
     if not cmd:KeyDown( IN_FORWARD ) and cmd:KeyDown( IN_SPEED ) then
         cmd:RemoveKey( IN_SPEED )
     end
+
+    --print(cmd:GetMouseWheel())
+    if SERVER and cmd:GetMouseWheel() != 0 then
+        local activeWep = ply:GetActiveWeapon()
+        local activeSlot = activeWep:GetSlot()
+
+        local newSlot = activeSlot - cmd:GetMouseWheel()
+
+        if newSlot < 0 then newSlot = 2 end
+        if newSlot > 2 then newSlot = 0 end
+
+        local weapons = ply:GetWeapons()
+        for _, wep in pairs( weapons ) do
+            if wep:GetSlot() == newSlot and ply:GetActiveWeapon() != wep then
+                ply:SelectWeapon( wep:GetClass() )
+                return
+            end
+        end
+    end
 end )
 
 function GM:PlayerButtonDown( ply, button )
@@ -64,6 +83,7 @@ function GM:PlayerButtonDown( ply, button )
         end
     end
 
+    -- DROP WEAPON
     if button == KEY_X then
         if SERVER then
             local activeWeapon = ply:GetActiveWeapon()
@@ -74,6 +94,7 @@ function GM:PlayerButtonDown( ply, button )
         end
     end
 
+    -- SWITCH WEAPON 0
     if button == KEY_1 and SERVER then
         local weapons = ply:GetWeapons()
         for _, wep in pairs( weapons ) do
@@ -84,6 +105,7 @@ function GM:PlayerButtonDown( ply, button )
         end
     end
 
+    -- SWITCH WEAPON 1
     if button == KEY_2 and SERVER then
         local weapons = ply:GetWeapons()
         for _, wep in pairs( weapons ) do
@@ -94,6 +116,7 @@ function GM:PlayerButtonDown( ply, button )
         end
     end
 
+    -- SWITCH WEAPON 2
     if button == KEY_3 and SERVER then
         local weapons = ply:GetWeapons()
         for _, wep in pairs( weapons ) do
@@ -102,5 +125,11 @@ function GM:PlayerButtonDown( ply, button )
                 return
             end
         end
+    end
+
+    if button == MOUSE_WHEEL_UP and SERVER then
+        local activeWep = ply:GetActiveWeapon()
+        local activeSlot = activeWep:GetSlot()
+        print("up")
     end
 end
