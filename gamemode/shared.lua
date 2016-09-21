@@ -65,13 +65,11 @@ function GM:PlayerButtonDown( ply, button )
     if button == KEY_Q then
         if SERVER and ply.LastHi + 2 <= CurTime() then
 
-            --local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
+            local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
 
-            --if ( trace.Entity && trace.Entity:IsNPC() && GMT:NPCGetFaction( trace.Entity ) != "" && ply.Factions[GMT:NPCGetFaction( trace.Entity )] > 0 ) then
-                --ply:EmitSound( "vo/npc/male01/squad_away03.wav", 75, 100, 1, CHAN_AUTO ) -- Same as below
-            --else
-
-            if ply:KeyDown( IN_SPEED ) then
+            if ( trace.Entity && trace.Entity:IsNPC() && GMT:NPCGetFaction( trace.Entity ) != "" && ply.Factions[GMT:NPCGetFaction( trace.Entity )] > 0 ) then
+                ply:EmitSound( "vo/npc/male01/squad_away03.wav", 75, 100, 1, CHAN_AUTO ) -- Same as below
+            elseif ply:KeyDown( IN_SPEED ) then
                 ply:EmitSound( table.Random( { "vo/npc/male01/runforyourlife01.wav", "vo/npc/male01/runforyourlife02.wav", "vo/npc/male01/runforyourlife02.wav" } ), 75, 100, 1, CHAN_AUTO ) -- Same as below
             elseif ply:GetActiveWeapon().dt.State == CW_AIMING then
                 ply:EmitSound( "vo/npc/male01/getdown02.wav", 75, 100, 1, CHAN_AUTO ) -- Same as below

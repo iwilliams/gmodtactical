@@ -81,7 +81,6 @@ function GM:GetFallDamage( ply, speed )
 end
 
 hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
-
     local activeWep = ply:GetActiveWeapon()
 
     -- walk over wepon to get ammo
@@ -98,11 +97,16 @@ hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
 
     -- Check E button LOS
     if ( CurTime() <= ( ply.UseWeaponSpawn or 0 ) ) then return end
-    if ( !ply:KeyDown( IN_USE ) ) then return false end
-    local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
-    if ( !trace.Entity || !trace.Entity:IsValid() || trace.Entity != wep ) then
-        return false
-    end
+    if ( !ply:KeyDown( IN_USE ) && !ply.serverGivingWep ) then return false end
+
+    if(!ply.serverGivingWep) then
+        local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
+        if ( !trace.Entity || !trace.Entity:IsValid() || trace.Entity != wep ) then
+            return false
+        end
+    end 
+
+    ply.serverGivingWep = false
 
     -- Figure out which weapons to drop
     local newWep        = wep:GetClass()
