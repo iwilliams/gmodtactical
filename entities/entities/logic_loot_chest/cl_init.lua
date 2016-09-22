@@ -1,5 +1,7 @@
 include('shared.lua') --Include shared.lua
 
+local lootMenu = {}
+
 function ENT:Initialize()
 --Empty, but you must have this function
 end
@@ -8,7 +10,7 @@ function ENT:Draw()
     self:DrawModel() --Draw the model, without this. You'll get a invisible, modeless entity.
 end
 
-function scoreboard:show(contents, chest)
+function lootMenu:show(contents, chest)
 
     local frameWidth = 400
 
@@ -47,7 +49,7 @@ function scoreboard:show(contents, chest)
         layout:Add(label)
     end
 
-    function scoreboard:hide()
+    function lootMenu:hide()
         -- Here you put how to hide it, eg Base:Remove()
         frame:Remove()
     end
@@ -56,5 +58,5 @@ end
 net.Receive( "loot_chest_open", function()
     local contents = net.ReadTable()
     local chest = net.ReadEntity()
-    scoreboard:show(contents, chest)
+    lootMenu:show(contents, chest)
 end)

@@ -14,6 +14,16 @@ concommand.Add("cleanup", function( ply, cmd, args )
     end
 end)
 
+
+hook.Add( "PlayerFootstep", "PlayerModelFootstep", function( ply, pos, foot, sound, volume, filter )
+    if ply:KeyDown(IN_SPEED) then
+        ply:EmitSound( "npc/combine_soldier/gear" .. math.random( 1, 6 ) .. ".wav", 75, 100, volume )
+        return true
+    end
+end )
+
+
+
 -- table.filter({"a", "b", "c", "d"}, function(o, k, i) return o >= "c" end)  --> {"c","d"}
 -- --
 -- -- @FGRibreau - Francois-Guillaume Ribreau
@@ -104,7 +114,7 @@ hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
         if ( !trace.Entity || !trace.Entity:IsValid() || trace.Entity != wep ) then
             return false
         end
-    end 
+    end
 
     ply.serverGivingWep = false
 

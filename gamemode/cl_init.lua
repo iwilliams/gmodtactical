@@ -108,44 +108,118 @@ end
 
 scoreboard = scoreboard or {}
 
---function scoreboard:show()
+function scoreboard:show()
 
-    --local frameWidth = 400
+    local frameWidth = 400
+    local padding = 10
 
-    ----Create the scoreboard here, with an base like DPanel, you can use an DListView for the rows.
-    --local frame = vgui.Create( "DFrame" )
-    --frame:ShowCloseButton( false )
-    --frame:SetSize( frameWidth, 250 )
-    --frame:SetTitle( "Purchase Weapon" )
-    --frame:MakePopup()
-    --frame:Center()
+    local DPanel = vgui.Create( "DPanel" )
+    DPanel:SetPos( 10, 30 ) -- Set the position of the panel
+    DPanel:SetSize( 900, 600 ) -- Set the size of the panel
+    DPanel:Center()
+    DPanel.Paint = function() return end
+    DPanel:MakePopup()
 
-    --local layout = vgui.Create( "DListLayout", frame )
-    --layout:SetSize( frameWidth - 10, 100 )
-    --layout:SetPos( 5, 50 )
+    -- Create tabed layout
+    local sheet = vgui.Create( "DPropertySheet", DPanel )
+    sheet:Dock( FILL )
 
-    ----Draw a background so we can see what it's doing
-    --layout:SetPaintBackground( true )
-    --layout:SetBackgroundColor( Color( 0, 100, 100 ) )
+    local sheetWidth, sheetHeight = sheet:GetSize()
 
-    --layout:MakeDroppable( "unique_name" ) -- Allows us to rearrange children
+    -- Create status panel
+    local modelFrame = vgui.Create( "DPanel", sheet )
+    modelFrame:SetPos(padding, padding)
+    modelFrame:SetSize( 300, sheetHeight )
+    modelFrame:SetBackgroundColor( Color(200, 200, 200, 255) )
+    sheet:AddSheet("Status", modelFrame)
 
-    --local label1 = Label( "P90" )
-    --layout:Add(label1)
+    local icon = vgui.Create( "DModelPanel", modelFrame )
+    icon:SetPos( -10 , -100 )
+    icon:SetSize( 300, 400 )
+    icon:SetModel( LocalPlayer():GetModel() )
+    local sequence = LocalPlayer():LookupSequence( "idle_ar2" )
+    --function icon:LayoutEntity( ent )
+    function icon:PreDrawModel( ent )
+        ent:SetSequence( sequence )
+        --icon:RunAnimation()
+    end
 
-    --local label2 = Label( "M4" )
-    --layout:Add(label2)
+    local DComboBox = vgui.Create( "DComboBox", modelFrame )
+    DComboBox:SetPos( 5, 5 )
+    DComboBox:SetSize( 300, 20 )
+    DComboBox:SetValue( "Set Player Model" )
+    DComboBox:AddChoice( "option A" )
+    DComboBox:AddChoice( "option B" )
+    DComboBox:AddChoice( "option C" )
+    DComboBox.OnSelect = function( panel, index, value )
+        print( value .." was selected!" )
+    end
 
-    --function scoreboard:hide()
-        ---- Here you put how to hide it, eg Base:Remove()
-        --frame:Remove()
+    -- Create Inventory Panel
+    local inventoryPanel = vgui.Create( "DPanel", sheet )
+    inventoryPanel:SetPos(padding, padding)
+    inventoryPanel:SetSize( 300, sheetHeight )
+    inventoryPanel:SetBackgroundColor( Color(200, 200, 200, 255) )
+    sheet:AddSheet("Inventory", inventoryPanel)
+
+    -- Create Players panel
+    local playersPanel = vgui.Create( "DPanel", sheet )
+    playersPanel:SetBackgroundColor( Color(200, 200, 200, 255) )
+    sheet:AddSheet("Players", playersPanel)
+
+    local playersList = vgui.Create( "DScrollPanel", playersPanel )
+    playersList:Dock( FILL )
+
+    for k, player in pairs( player.GetAll() ) do
+        local playerBG = vgui.Create( "DPanel", playersList )
+        playerBG:Dock( TOP )
+        playerBG:DockMargin( padding, padding, padding , padding/2 )
+        playerBG:SetSize( 100, 50 )
+        playerBG:SetBackgroundColor( Color( 255, 255, 255, 255 ) )
+
+        local DLabel = vgui.Create( "DLabel", playerBG )
+        DLabel:SetTextColor( Color ( 0, 0, 0, 255 ) )
+        DLabel:SetText( player:GetName() )
+        DLabel:Center()
+        DLabel:DockMargin( padding, padding, padding , padding )
+        DLabel:Dock( LEFT )
+        DLabel:SizeToContents()
+
+        if LocalPlayer():IsAdmin() then
+           local BanButton = vgui.Create( "DButton", playerBG )
+           BanButton:Dock( RIGHT )
+           BanButton:SetPos( 40, 40 )
+           BanButton:SetText( "Ban" )
+           BanButton:SetSize( 120, 60 )
+
+           BanButton.DoClick = function()
+                print( "Button was clicked!" )
+           end
+
+           local KickButton = vgui.Create( "DButton", playerBG )
+           KickButton:Dock( RIGHT )
+           KickButton:SetPos( 40, 40 )
+           KickButton:SetText( "Kick" )
+           KickButton:SetSize( 120, 60 )
+
+           KickButton.DoClick = function()
+                print( "Button was clicked!" )
+           end
+        end
+    end
+
+    function scoreboard:hide()
+        -- Here you put how to hide it, eg Base:Remove()
+        DPanel:Remove()
+    end
+end
+
+function GM:ScoreboardShow()
+    --if(LocalPlayer():Alive()) then
+        scoreboard:show()
     --end
---end
+end
 
---function GM:ScoreboardShow()
-    --scoreboard:show()
---end
-
---function GM:ScoreboardHide()
-    --scoreboard:hide()
---end
+function GM:ScoreboardHide()
+    scoreboard:hide()
+end
