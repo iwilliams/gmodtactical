@@ -110,57 +110,110 @@ scoreboard = scoreboard or {}
 
 function scoreboard:show()
 
-    local frameWidth = 400
-    local padding = 10
+    local frameWidth = 1000
+    local frameHeight = 700
+    local padding =10
+
+    local outerBgColor = Color(100, 100, 100, 255)
+    local innerBgColor = Color(20, 20, 20, 255)
 
     local DPanel = vgui.Create( "DPanel" )
     DPanel:SetPos( 10, 30 ) -- Set the position of the panel
-    DPanel:SetSize( 900, 600 ) -- Set the size of the panel
+    DPanel:SetSize( frameWidth, frameHeight ) -- Set the size of the panel
     DPanel:Center()
     DPanel.Paint = function() return end
     DPanel:MakePopup()
 
     -- Create tabed layout
     local sheet = vgui.Create( "DPropertySheet", DPanel )
-    sheet:Dock( FILL )
+    sheet:SetSize( frameWidth, frameHeight )
+    sheet:SetPadding( 0, 0, 0, 0 )
 
-    local sheetWidth, sheetHeight = sheet:GetSize()
+    -- Create status tab
+    local statusTab = vgui.Create( "DPanel", sheet )
+    statusTab:SetBackgroundColor( outerBgColor )
+    sheet:AddSheet("Status", statusTab)
 
-    -- Create status panel
-    local modelFrame = vgui.Create( "DPanel", sheet )
-    modelFrame:SetPos(padding, padding)
-    modelFrame:SetSize( 300, sheetHeight )
-    modelFrame:SetBackgroundColor( Color(200, 200, 200, 255) )
-    sheet:AddSheet("Status", modelFrame)
+    print(statusTab:GetSize())
 
-    local icon = vgui.Create( "DModelPanel", modelFrame )
-    icon:SetPos( -10 , -100 )
-    icon:SetSize( 300, 400 )
-    icon:SetModel( LocalPlayer():GetModel() )
-    local sequence = LocalPlayer():LookupSequence( "idle_ar2" )
-    --function icon:LayoutEntity( ent )
-    function icon:PreDrawModel( ent )
+    -- Create Stats Side
+    local statsWidth = (frameWidth - (padding*3))/4
+    print(statsWidth)
+
+    local statsPanel = vgui.Create( "DPanel", statusTab )
+    statsPanel:SetSize( statsWidth, frameHeight - (padding*2) - 20)
+    statsPanel:SetPos( padding, padding )
+    statsPanel:SetBackgroundColor( innerBgColor )
+
+    -- Player Model
+    local playerModel = vgui.Create( "DModelPanel", statsPanel )
+    playerModel:SetPos( 0, 0 )
+    playerModel:SetSize( statsWidth, statsWidth )
+
+    playerModel:SetModel( LocalPlayer():GetModel() )
+    function playerModel:PreDrawModel( ent )
+        ent:SetPos(Vector(0, 0, statsWidth/18))
+        local sequence = LocalPlayer():GetSequence()
         ent:SetSequence( sequence )
-        --icon:RunAnimation()
     end
 
-    local DComboBox = vgui.Create( "DComboBox", modelFrame )
-    DComboBox:SetPos( 5, 5 )
-    DComboBox:SetSize( 300, 20 )
-    DComboBox:SetValue( "Set Player Model" )
-    DComboBox:AddChoice( "option A" )
-    DComboBox:AddChoice( "option B" )
-    DComboBox:AddChoice( "option C" )
-    DComboBox.OnSelect = function( panel, index, value )
+    local modelSelect = vgui.Create( "DComboBox", statsPanel )
+    modelSelect:SetPos( 0, statsWidth )
+    modelSelect:SetSize( statsWidth, 20 )
+    modelSelect:SetValue( "Set Player Model" )
+    modelSelect:AddChoice( "option A" )
+    modelSelect:AddChoice( "option B" )
+    modelSelect:AddChoice( "option C" )
+    modelSelect.OnSelect = function( panel, index, value )
         print( value .." was selected!" )
     end
 
-    -- Create Inventory Panel
-    local inventoryPanel = vgui.Create( "DPanel", sheet )
-    inventoryPanel:SetPos(padding, padding)
-    inventoryPanel:SetSize( 300, sheetHeight )
-    inventoryPanel:SetBackgroundColor( Color(200, 200, 200, 255) )
-    sheet:AddSheet("Inventory", inventoryPanel)
+    local weaponPanelWidth = ((statsWidth*3) - (padding*2))/3
+
+    -- Melee Panel
+    local meleePanel = vgui.Create( "DPanel", statusTab )
+    meleePanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    meleePanel:SetPos( statsWidth + padding*2, padding )
+    meleePanel:SetBackgroundColor( innerBgColor )
+
+    -- Melee Weapon Model
+    local meleeModel = vgui.Create( "DModelPanel", meleePanel )
+    meleeModel:SetPos( 0, 0 )
+    meleeModel:SetSize( weaponPanelWidth, weaponPanelWidth )
+
+    meleeModel:SetModel( LocalPlayer():GetActiveWeapon():GetModel() )
+    function meleeModel:PreDrawModel( ent )
+        ent:SetPos(Vector(0, 0, statsWidth/5))
+        ent:SetModelScale( 1.5, 0 )
+    end
+    --function meleeModel:LayoutEntity() return end
+    --
+    -- Primary Panel
+    local primaryPanel = vgui.Create( "DPanel", statusTab )
+    primaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    primaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth + padding, padding )
+    primaryPanel:SetBackgroundColor( innerBgColor )
+
+    -- Primary Panel
+    local secondaryPanel = vgui.Create( "DPanel", statusTab )
+    secondaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    secondaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth*2 + padding*2, padding )
+    secondaryPanel:SetBackgroundColor( innerBgColor )
+
+
+
+    -- Create Inventory Side
+    local inventoryPanel = vgui.Create( "DPanel", statusTab )
+    inventoryPanel:SetSize( statsWidth*3, frameHeight - (padding*3) - 20 - weaponPanelWidth )
+    inventoryPanel:SetPos( statsWidth + padding*2, weaponPanelWidth + padding*2 )
+    inventoryPanel:SetBackgroundColor( innerBgColor )
+
+
+    --local meleeWeaponLabel = vgui.Create( "DLabel", statusTab )
+    --meleeWeaponLabel:SetText( "Melee Weapon" )
+    --meleeWeaponLabel:SetPos( padding + modelHolderHeight, modelHolderHeight + padding )
+    --meleeWeaponLabel:SizeToContents()
+
 
     -- Create Players panel
     local playersPanel = vgui.Create( "DPanel", sheet )

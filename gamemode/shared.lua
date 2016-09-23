@@ -46,10 +46,15 @@ hook.Add( "StartCommand", "Disable Jumping", function( ply, cmd )
         local activeWep = ply:GetActiveWeapon()
         local activeSlot = activeWep:GetSlot()
 
-        local newSlot = activeSlot - cmd:GetMouseWheel()
+        if cmd:GetMouseWheel() == 1 then
+            ply:SelectWeapon( 'weapon_empty_hands' )
+            return
+        end
 
-        if newSlot < 0 then newSlot = 2 end
-        if newSlot > 2 then newSlot = 0 end
+        local newSlot = activeSlot + 1
+
+        if newSlot < 1 then newSlot = 2 end
+        if newSlot > 2 then newSlot = 1 end
 
         local weapons = ply:GetWeapons()
         for _, wep in pairs( weapons ) do
@@ -96,7 +101,7 @@ function GM:PlayerButtonDown( ply, button )
     if button == KEY_1 and SERVER then
         local weapons = ply:GetWeapons()
         for _, wep in pairs( weapons ) do
-            if wep:GetSlot() == 0 and ply:GetActiveWeapon() != wep then
+            if wep:GetSlot() == 0 and ply:GetActiveWeapon() != wep  and wep:GetSlotPos() == 0 then
                 ply:SelectWeapon( wep:GetClass() )
                 return
             end

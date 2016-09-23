@@ -2,6 +2,23 @@ AddCSLuaFile()
 AddCSLuaFile("sh_sounds.lua")
 include("sh_sounds.lua")
 // SCK Name: hk45
+if SERVER then
+
+        SWEP.AcceptInput = function(inputName, activator, called, data )
+            if true then
+                print("-----------")
+                print("AcceptInput")
+                print("inputName: ",    inputName)
+                print("activator: ",    activator)
+                print("called: ",       called)
+                print("data: ",         data)
+                print("-----------")
+            end
+        end
+
+end
+
+
 if CLIENT then
     SWEP.DrawCrosshair = false
     SWEP.PrintName = "HK45C"

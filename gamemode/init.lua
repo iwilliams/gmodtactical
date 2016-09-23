@@ -349,9 +349,11 @@ hook.Add("PlayerLoadout", "gmt_player_spawn_inventory", function ( ply )
         }
     end
 
+    ply.forceGive = true
     for _, weapon in pairs(inventory) do
         ply:Give( weapon.weapon )
     end
+    ply.forceGive = false
 
 
     local playerAmmo = {
@@ -388,6 +390,10 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim, inflict
     victim:StopSound("player_breathe")
     victim:StopSound("player_heart")
     victim.isBreathing = false
+
+    for k, v in pairs( victim:GetWeapons() ) do
+        victim:DropWeapon( v )
+    end
 
     local ragDoll = victim:GetRagdollEntity()
     if IsValid(ragDoll) then ragDoll:Remove() end
