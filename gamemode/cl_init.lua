@@ -2,6 +2,25 @@ include("shared.lua");
 
 GMT = {}
 
+-- Taken straight from dat OG DarkRP bb
+-- I guess you have to include CS files here because I can't seem to do it in the modules themselves
+local function LoadModules()
+    local root = GM.FolderName .. "/gamemode/modules/"
+    local _, folders = file.Find(root .. "*", "LUA")
+
+    for _, folder in SortedPairs(folders, true) do
+        for _, File in SortedPairs(file.Find(root .. folder .. "/sh_*.lua", "LUA"), true) do
+            include(root .. folder .. "/" .. File)
+        end
+
+        for _, File in SortedPairs(file.Find(root .. folder .. "/cl_*.lua", "LUA"), true) do
+            include(root .. folder .. "/" .. File)
+        end
+    end
+end
+LoadModules()
+
+
 --sound.PlayURL ( "http://warez.iwillia.ms/garrysmod/output.wav", "", function( station )
     --if ( IsValid( station ) ) then
 
@@ -97,182 +116,4 @@ function GM:RenderScreenspaceEffects()
     --DrawMotionBlur( 0.4, 0.8, math.max(blur, 0) )
 
     --DrawBloom( 0.75, 1.5, 9, 9, 1, 1, 1, 1, 1 )
-end
-
-scoreboard = scoreboard or {}
-
-function scoreboard:show()
-
-    local frameWidth = 1000
-    local frameHeight = 700
-    local padding =10
-
-    local outerBgColor = Color(100, 100, 100, 255)
-    local innerBgColor = Color(20, 20, 20, 255)
-
-    local DPanel = vgui.Create( "DPanel" )
-    DPanel:SetPos( 10, 30 ) -- Set the position of the panel
-    DPanel:SetSize( frameWidth, frameHeight ) -- Set the size of the panel
-    DPanel:Center()
-    DPanel.Paint = function() return end
-    DPanel:MakePopup()
-
-    -- Create tabed layout
-    local sheet = vgui.Create( "DPropertySheet", DPanel )
-    sheet:SetSize( frameWidth, frameHeight )
-    sheet:SetPadding( 0, 0, 0, 0 )
-
-    -- Create status tab
-    local statusTab = vgui.Create( "DPanel", sheet )
-    statusTab:SetBackgroundColor( outerBgColor )
-    sheet:AddSheet("Status", statusTab)
-
-    print(statusTab:GetSize())
-
-    -- Create Stats Side
-    local statsWidth = (frameWidth - (padding*3))/4
-    print(statsWidth)
-
-    local statsPanel = vgui.Create( "DPanel", statusTab )
-    statsPanel:SetSize( statsWidth, frameHeight - (padding*2) - 20)
-    statsPanel:SetPos( padding, padding )
-    statsPanel:SetBackgroundColor( innerBgColor )
-
-    -- Player Model
-    local playerModel = vgui.Create( "DModelPanel", statsPanel )
-    playerModel:SetPos( 0, 0 )
-    playerModel:SetSize( statsWidth, statsWidth )
-
-    --playerModel:SetModel( LocalPlayer():GetModel() )
-    playerModel:SetModel( "models/halo1/spartan_mc.mdl" )
-    function playerModel:PreDrawModel( ent )
-        ent:SetPos(Vector(0, 0, statsWidth/18))
-        local sequence = LocalPlayer():GetSequence()
-        ent:SetSequence( sequence )
-    end
-
-    local modelSelect = vgui.Create( "DComboBox", statsPanel )
-    modelSelect:SetPos( 0, statsWidth )
-    modelSelect:SetSize( statsWidth, 20 )
-    modelSelect:SetValue( "Set Player Model" )
-    modelSelect:AddChoice( "option A" )
-    modelSelect:AddChoice( "option B" )
-    modelSelect:AddChoice( "option C" )
-    modelSelect.OnSelect = function( panel, index, value )
-        print( value .." was selected!" )
-    end
-
-    local weaponPanelWidth = ((statsWidth*3) - (padding*2))/3
-
-    -- Melee Panel
-    local meleePanel = vgui.Create( "DPanel", statusTab )
-    meleePanel:SetSize( weaponPanelWidth, weaponPanelWidth)
-    meleePanel:SetPos( statsWidth + padding*2, padding )
-    meleePanel:SetBackgroundColor( innerBgColor )
-
-    -- Melee Weapon Model
-    local meleeModel = vgui.Create( "DModelPanel", meleePanel )
-    meleeModel:SetPos( 0, 0 )
-    meleeModel:SetSize( weaponPanelWidth, weaponPanelWidth )
-
-    meleeModel:SetModel( LocalPlayer():GetActiveWeapon():GetModel() )
-    function meleeModel:PreDrawModel( ent )
-        ent:SetPos(Vector(0, 0, statsWidth/5))
-        ent:SetModelScale( 1.5, 0 )
-    end
-    --function meleeModel:LayoutEntity() return end
-    --
-    -- Primary Panel
-    local primaryPanel = vgui.Create( "DPanel", statusTab )
-    primaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
-    primaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth + padding, padding )
-    primaryPanel:SetBackgroundColor( innerBgColor )
-
-    -- Primary Panel
-    local secondaryPanel = vgui.Create( "DPanel", statusTab )
-    secondaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
-    secondaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth*2 + padding*2, padding )
-    secondaryPanel:SetBackgroundColor( innerBgColor )
-
-
-
-    -- Create Inventory Side
-    local inventoryPanel = vgui.Create( "DPanel", statusTab )
-    inventoryPanel:SetSize( statsWidth*3, frameHeight - (padding*3) - 20 - weaponPanelWidth )
-    inventoryPanel:SetPos( statsWidth + padding*2, weaponPanelWidth + padding*2 )
-    inventoryPanel:SetBackgroundColor( innerBgColor )
-
-
-    --local meleeWeaponLabel = vgui.Create( "DLabel", statusTab )
-    --meleeWeaponLabel:SetText( "Melee Weapon" )
-    --meleeWeaponLabel:SetPos( padding + modelHolderHeight, modelHolderHeight + padding )
-    --meleeWeaponLabel:SizeToContents()
-
-
-    -- Create Players panel
-    local playersPanel = vgui.Create( "DPanel", sheet )
-    playersPanel:SetBackgroundColor( Color(200, 200, 200, 255) )
-    sheet:AddSheet("Players", playersPanel)
-
-    local playersList = vgui.Create( "DScrollPanel", playersPanel )
-    playersList:Dock( FILL )
-
-    for k, ply in pairs( player.GetAll() ) do
-        local playerBG = vgui.Create( "DPanel", playersList )
-        playerBG:Dock( TOP )
-        playerBG:DockMargin( padding, padding, padding , padding/2 )
-        playerBG:SetSize( 100, 70 )
-        playerBG:SetBackgroundColor( Color( 255, 255, 255, 255 ) )
-
-        local Avatar = vgui.Create( "AvatarImage", playerBG )
-        Avatar:SetSize( 64, 64 )
-        Avatar:DockMargin( 3, 3, 3, 3 )
-        Avatar:SetPlayer( ply, 64 )
-        Avatar:Dock( LEFT )
-
-        local DLabel = vgui.Create( "DLabel", playerBG )
-        DLabel:SetTextColor( Color ( 0, 0, 0, 255 ) )
-        DLabel:SetText( ply:GetName() )
-        DLabel:Center()
-        DLabel:DockMargin( padding, padding, padding , padding )
-        DLabel:Dock( LEFT )
-        DLabel:SizeToContents()
-
-        if LocalPlayer():IsAdmin() then
-           local BanButton = vgui.Create( "DButton", playerBG )
-           BanButton:Dock( RIGHT )
-           BanButton:SetPos( 40, 40 )
-           BanButton:SetText( "Ban" )
-           BanButton:SetSize( 120, 60 )
-
-           BanButton.DoClick = function()
-                print( "Button was clicked!" )
-           end
-
-           local KickButton = vgui.Create( "DButton", playerBG )
-           KickButton:Dock( RIGHT )
-           KickButton:SetPos( 40, 40 )
-           KickButton:SetText( "Kick" )
-           KickButton:SetSize( 120, 60 )
-
-           KickButton.DoClick = function()
-                print( "Button was clicked!" )
-           end
-        end
-    end
-
-    function scoreboard:hide()
-        -- Here you put how to hide it, eg Base:Remove()
-        DPanel:Remove()
-    end
-end
-
-function GM:ScoreboardShow()
-    --if(LocalPlayer():Alive()) then
-        scoreboard:show()
-    --end
-end
-
-function GM:ScoreboardHide()
-    scoreboard:hide()
 end

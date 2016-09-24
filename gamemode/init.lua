@@ -6,7 +6,20 @@ include("player.lua")
 
 GMT = {}
 include("config.lua")
-include("sv_inventory.lua")
+
+-- Taken straight from dat OG DarkRP bb
+-- Include all moduels "init.lua" files, which will then in turn add all their CS files and include the stuff
+local function LoadModules()
+    local root = GM.FolderName .. "/gamemode/modules/"
+    local _, folders = file.Find(root .. "*", "LUA")
+
+    for _, folder in SortedPairs(folders, true) do
+        for _, File in SortedPairs(file.Find(root .. folder .. "/init.lua", "LUA"), true) do
+            include(root .. folder .. "/" .. File)
+        end
+    end
+end
+LoadModules()
 
 concommand.Add("cleanup", function( ply, cmd, args )
     if ply:IsSuperAdmin() then
@@ -391,11 +404,6 @@ hook.Add("PlayerDeath", "gmt_player_death_inventory", function ( victim, inflict
     victim:StopSound("player_breathe")
     victim:StopSound("player_heart")
     victim.isBreathing = false
-
-    local testItem = ents.Create( "inventory_item" )
-    testItem:SetItem( "health_spray" )
-    testItem:SetPos( victim:GetPos() )
-    testItem:Spawn()
 
     for k, v in pairs( victim:GetWeapons() ) do
         victim:DropWeapon( v )

@@ -8,7 +8,6 @@ GM.Website = "iwillia.ms"
 -- Include player class info
 include( "player_class/player_gmt_base.lua")
 include( "player_class/player_operator.lua")
-include( "sh_items.lua" )
 
 sound.Add({
     name = "player_heart",
