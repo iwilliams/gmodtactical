@@ -1,5 +1,7 @@
 include("shared.lua");
 
+GMT = {}
+
 --sound.PlayURL ( "http://warez.iwillia.ms/garrysmod/output.wav", "", function( station )
     --if ( IsValid( station ) ) then
 
@@ -61,19 +63,10 @@ function RemoveDeadRag( ent )
 end
 hook.Add("OnEntityCreated", "RemoveDeadRag", RemoveDeadRag)
 
-
-hook.Add("PlayerHurt", "playerHurtShake", function( victim, attacker, healthRemaining, damageTaken )
-    print("ow")
-    if healthRemaining < 0 then return end
-
-    print("ow")
-    util.ScreenShake( victim:GetPos() , 500, 5, 10, 5000 )
-end)
-
 function GM:RenderScreenspaceEffects()
-    local player     = LocalPlayer()
-    local maxHealth  = player:GetMaxHealth()
-    local health     = player:Health()
+    local ply     = LocalPlayer()
+    local maxHealth  = ply:GetMaxHealth()
+    local health     = ply:Health()
 
     --if health > 85 then return end
 
@@ -86,7 +79,7 @@ function GM:RenderScreenspaceEffects()
     local maxColour = .2
 
     local contrast = 1
-    if not player:Alive() then contrast = 0 end
+    if not ply:Alive() then contrast = 0 end
 
     local tab = {
         [ "$pp_colour_addr" ] = math.max(maxRed - (maxRed * percentage), 0) * 1.2,
@@ -150,7 +143,8 @@ function scoreboard:show()
     playerModel:SetPos( 0, 0 )
     playerModel:SetSize( statsWidth, statsWidth )
 
-    playerModel:SetModel( LocalPlayer():GetModel() )
+    --playerModel:SetModel( LocalPlayer():GetModel() )
+    playerModel:SetModel( "models/halo1/spartan_mc.mdl" )
     function playerModel:PreDrawModel( ent )
         ent:SetPos(Vector(0, 0, statsWidth/18))
         local sequence = LocalPlayer():GetSequence()
@@ -223,16 +217,22 @@ function scoreboard:show()
     local playersList = vgui.Create( "DScrollPanel", playersPanel )
     playersList:Dock( FILL )
 
-    for k, player in pairs( player.GetAll() ) do
+    for k, ply in pairs( player.GetAll() ) do
         local playerBG = vgui.Create( "DPanel", playersList )
         playerBG:Dock( TOP )
         playerBG:DockMargin( padding, padding, padding , padding/2 )
-        playerBG:SetSize( 100, 50 )
+        playerBG:SetSize( 100, 70 )
         playerBG:SetBackgroundColor( Color( 255, 255, 255, 255 ) )
+
+        local Avatar = vgui.Create( "AvatarImage", playerBG )
+        Avatar:SetSize( 64, 64 )
+        Avatar:DockMargin( 3, 3, 3, 3 )
+        Avatar:SetPlayer( ply, 64 )
+        Avatar:Dock( LEFT )
 
         local DLabel = vgui.Create( "DLabel", playerBG )
         DLabel:SetTextColor( Color ( 0, 0, 0, 255 ) )
-        DLabel:SetText( player:GetName() )
+        DLabel:SetText( ply:GetName() )
         DLabel:Center()
         DLabel:DockMargin( padding, padding, padding , padding )
         DLabel:Dock( LEFT )

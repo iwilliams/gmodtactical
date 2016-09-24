@@ -8,7 +8,7 @@ GM.Website = "iwillia.ms"
 -- Include player class info
 include( "player_class/player_gmt_base.lua")
 include( "player_class/player_operator.lua")
-
+include( "sh_items.lua" )
 
 sound.Add({
     name = "player_heart",
@@ -66,13 +66,25 @@ hook.Add( "StartCommand", "Disable Jumping", function( ply, cmd )
     end
 end )
 
+local function MyFunc(pl, event, data)
+    if event == PLAYERANIMEVENT_RELOAD then
+        pl.isReloading = true
+        timer.Simple(2, function()
+            pl.isReloading = false
+        end)
+    end
+end
+hook.Add("DoAnimationEvent", "CheckPlayerReload", MyFunc)
+
 function GM:PlayerButtonDown( ply, button )
     if button == KEY_Q then
         if SERVER and ply.LastHi + 2 <= CurTime() then
 
             local trace = util.QuickTrace( ply:GetShootPos(), ply:GetAimVector() * 8192, ply )
 
-            if ( trace.Entity && trace.Entity:IsNPC() && GMT:NPCGetFaction( trace.Entity ) != "" && ply.Factions[GMT:NPCGetFaction( trace.Entity )] > 0 ) then
+            if ply.isReloading then
+                ply:EmitSound( table.Random( { "vo/npc/male01/coverwhilereload01.wav", "vo/npc/male01/coverwhilereload02.wav" } ), 75, 100, 1, CHAN_AUTO ) -- Same as below
+            elseif ( trace.Entity && trace.Entity:IsNPC() && GMT:NPCGetFaction( trace.Entity ) != "" && ply.Factions[GMT:NPCGetFaction( trace.Entity )] > 0 ) then
                 ply:EmitSound( "vo/npc/male01/squad_away03.wav", 75, 100, 1, CHAN_AUTO ) -- Same as below
             elseif ply:KeyDown( IN_SPEED ) then
                 ply:EmitSound( table.Random( { "vo/npc/male01/runforyourlife01.wav", "vo/npc/male01/runforyourlife02.wav", "vo/npc/male01/runforyourlife02.wav" } ), 75, 100, 1, CHAN_AUTO ) -- Same as below
