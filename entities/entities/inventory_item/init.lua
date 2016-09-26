@@ -16,16 +16,15 @@ function ENT:Initialize()
     self:SetUseType(SIMPLE_USE)
 
     local phys = self:GetPhysicsObject()
+    print( phys:GetMass() )
     --phys:SetMass(200)
     phys:Wake()
 
-
-    self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+    --self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 end
 
-util.AddNetworkString( "inventory_item_prompt" )
 function ENT:Use(activator, caller)
-    sound.Play("items/smallmedkit1.wav", self:GetPos())
+    sound.Play("items/ammo_pickup.wav", self:GetPos())
     caller:AddToInventory( self.itemName )
     self:Remove()
 end

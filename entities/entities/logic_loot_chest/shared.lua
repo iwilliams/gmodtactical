@@ -1,5 +1,5 @@
 ENT.Type        = "anim" --The entity source base, most entity's use anim
-ENT.Base        = "base_gmodentity" --The entity's garrys mod base, most entity's use base_gmodentity
+ENT.Base        = "base_entity" --The entity's garrys mod base, most entity's use base_gmodentity
 ENT.Category        = "" --The entites catagory in the spawn menu
 ENT.Instructions = ""
 

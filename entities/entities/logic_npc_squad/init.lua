@@ -108,12 +108,13 @@ function ENT:SpawnSquad()
     for k, v in pairs( self.SpawnPoints ) do
         print( v, v.IsAlive )
         if not v.IsAlive then
+            local currentMaker = self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]
             -- Set destination to spawn point
-            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire("ChangeDestinationGroup", self:GetName() .. "_spawn_" .. k)
-            -- Spawn
-            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Enable"  )
-            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Spawn"   )
-            self.NPCMakers[self:GetName() .. "_maker_level_"  .. level]:Fire( "Disable" )
+            currentMaker:Fire("ChangeDestinationGroup", self:GetName() .. "_spawn_" .. k)
+
+            currentMaker:Fire( "Enable"  )
+            currentMaker:Fire( "Spawn"   )
+            currentMaker:Fire( "Disable" )
         end
     end
 
@@ -170,7 +171,7 @@ function ENT:Think()
                                 v.noneTimes = 0
                                 self:SendNPCToPoint( v )
                             end
-                        else
+                        elseif IsValid( v ) then
                             print( v:GetName() .. " status: " .. npcSchedule )
                             v.noneTimes = 0
                         end
@@ -202,6 +203,7 @@ function ENT:OnSpawnNPC(activator, called, data)
         print( "Renaming npc " .. kv["RenameNPC"] )
 
         npc:SetCurrentWeaponProficiency( WEAPON_PROFICIENCY_PERFECT )
+
 
         for _, ply in pairs( player.GetHumans() ) do
             if ply:Alive() then

@@ -4,7 +4,7 @@ GMT_ITEMS = {
     health_spray = {
         model = "models/healthvial.mdl",
         onUse = function( ply )
-            ply:SetHealth( math.min( ply:Health() + 50, ply:GetMaxHealth() ) )
+            ply:SetHealth( math.min( ply:Health() + 25, ply:GetMaxHealth() ) )
             sound.Play("items/smallmedkit1.wav", ply:GetPos())
             return true
         end
@@ -13,7 +13,7 @@ GMT_ITEMS = {
         model = "models/items/healthkit.mdl",
         onUse = function( ply )
             ply:SetHealth( ply:GetMaxHealth() )
-            sound.Play("items/smallmedkit1.wav", self:GetPos())
+            sound.Play("items/smallmedkit1.wav", ply:GetPos())
             return true
         end
     }

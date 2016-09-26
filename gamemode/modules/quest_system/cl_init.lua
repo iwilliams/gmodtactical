@@ -1,24 +1,12 @@
-local scoreboard = scoreboard or {
+local questmenu = questmenu or {
     isOpen = false
 }
 
-local PlyInventory = {}
-
-net.Receive( "gmt_update_player_inventory", function()
-    local Inventory = net.ReadTable()
-    local ply = LocalPlayer()
-    PlyInventory = Inventory
-    print( "Inventoy Updated" )
-    PrintTable( PlyInventory )
-
-    if scoreboard.isOpen then
-        scoreboard:hide()
-        scoreboard:show()
-    end
+net.Receive( "gmt_quests_open", function()
 end)
 
-function scoreboard:show()
-    scoreboard.isOpen = true
+function questmenu:show()
+    questmenu.isOpen = true
 
     local frameWidth = 1000
     local frameHeight = 700
@@ -70,7 +58,7 @@ function scoreboard:show()
     end
 
     local modelSelect = vgui.Create( "DComboBox", statsPanel )
-    modelSelect:SetPos( 0, statsWidth  - 20)
+    modelSelect:SetPos( 0, statsWidth )
     modelSelect:SetSize( statsWidth, 20 )
     modelSelect:SetValue( "Set Player Model" )
     modelSelect:AddChoice( "option A" )
@@ -82,61 +70,39 @@ function scoreboard:show()
 
     local weaponPanelWidth = ((statsWidth*3) - (padding*2))/3
 
-    local meleeWeapon       = nil
-    local primaryWeapon     = nil
-    local secondaryWeapon   = nil
+    -- Melee Panel
+    local meleePanel = vgui.Create( "DPanel", statusTab )
+    meleePanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    meleePanel:SetPos( statsWidth + padding*2, padding )
+    meleePanel:SetBackgroundColor( innerBgColor )
 
-    for _, weapon in pairs( LocalPlayer():GetWeapons() ) do
-        local slot      = weapon:GetSlot()
-        local slotPos   = weapon:GetSlotPos()
-        if slot == 0 && slotPos == 0 then
-            meleeWeapon = weapon
-        elseif slot == 1 then
-            secondaryWeapon = weapon
-        elseif slot == 2 then
-            primaryWeapon = weapon
+    if IsValid(LocalPlayer():GetActiveWeapon()) then
+        -- Melee Weapon Model
+        local meleeModel = vgui.Create( "DModelPanel", meleePanel )
+        meleeModel:SetPos( 0, 0 )
+        meleeModel:SetSize( weaponPanelWidth, weaponPanelWidth )
+
+        meleeModel:SetModel( LocalPlayer():GetActiveWeapon():GetModel() )
+        function meleeModel:PreDrawModel( ent )
+            ent:SetPos(Vector(0, 0, statsWidth/5))
+            ent:SetModelScale( 1.5, 0 )
         end
     end
+    --function meleeModel:LayoutEntity() return end
+    --
+    -- Primary Panel
+    local primaryPanel = vgui.Create( "DPanel", statusTab )
+    primaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    primaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth + padding, padding )
+    primaryPanel:SetBackgroundColor( innerBgColor )
 
-    for idx, weapon in pairs( { meleeWeapon, secondaryWeapon, primaryWeapon } ) do
-        idx = idx - 1
-        local weaponPanel = vgui.Create( "DPanel", statusTab )
-        weaponPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
-        weaponPanel:SetPos( statsWidth + padding*2 + ((weaponPanelWidth + padding)*idx), padding )
-        weaponPanel:SetBackgroundColor( innerBgColor )
+    -- Primary Panel
+    local secondaryPanel = vgui.Create( "DPanel", statusTab )
+    secondaryPanel:SetSize( weaponPanelWidth, weaponPanelWidth)
+    secondaryPanel:SetPos( statsWidth + padding*2 + weaponPanelWidth*2 + padding*2, padding )
+    secondaryPanel:SetBackgroundColor( innerBgColor )
 
-        if weapon != nil then
-            -- Melee Weapon Model
-            local weaponModel = vgui.Create( "DModelPanel", weaponPanel )
-            weaponModel:SetPos( 0, 0 )
-            weaponModel:SetSize( weaponPanelWidth, weaponPanelWidth )
 
-            weaponModel:SetModel( weapon:GetModel() )
-            function weaponModel:PreDrawModel( ent )
-                ent:SetPos(Vector(0, 0, statsWidth/5))
-                ent:SetModelScale( 1.5, 0 )
-            end
-
-            local buttonWidth = weaponPanelWidth/2
-            local buttonHeight = weaponPanelWidth/10
-
-            local equipButton = vgui.Create( "DButton", weaponPanel )
-            equipButton:SetPos( 0, weaponPanelWidth - buttonHeight )
-            equipButton:SetText( "Equip" )
-            equipButton:SetSize( buttonWidth, buttonHeight )
-            equipButton.DoClick = function()
-                print( "Button was clicked!" )
-            end
-
-            local dropButton = vgui.Create( "DButton", weaponPanel )
-            dropButton:SetPos( buttonWidth, weaponPanelWidth - buttonHeight )
-            dropButton:SetText( "Drop" )
-            dropButton:SetSize( buttonWidth, buttonHeight )
-            dropButton.DoClick = function()
-                print( "Button was clicked!" )
-            end
-        end
-    end
 
     -- Create Inventory Side
     local inventoryWidth = statsWidth*3
@@ -158,40 +124,18 @@ function scoreboard:show()
         local itemYPos = math.floor((idx - 1)/5)*itemSize
 
         -- Melee Weapon Model
-        local itemPanel = vgui.Create( "DModelPanel", inventoryScroll )
-        itemPanel:SetPos( itemXPos, itemYPos )
-        itemPanel:SetSize( itemSize, itemSize )
-
-        -- Melee Weapon Model
-        local itemModel = vgui.Create( "DModelPanel", itemPanel )
-        itemModel:SetPos( 0, 0 )
+        local itemModel = vgui.Create( "DModelPanel", inventoryScroll )
+        itemModel:SetPos( itemXPos, itemYPos )
         itemModel:SetSize( itemSize, itemSize )
 
         itemModel:SetModel( GMT_ITEMS[item].model )
         function itemModel:PreDrawModel( ent )
             ent:SetPos(Vector(0, 0, statsWidth/5))
-            ent:SetModelScale( 4, 0 )
+            ent:SetModelScale( 1.5, 0 )
         end
 
-        local buttonWidth = itemSize/2
-        local buttonHeight = itemSize/10
-
-        local equipButton = vgui.Create( "DButton", itemPanel )
-        equipButton:SetPos( 0, itemSize - buttonHeight )
-        equipButton:SetText( "Use" )
-        equipButton:SetSize( buttonWidth, buttonHeight )
-        equipButton.DoClick = function()
+        function itemModel:DoClick()
             net.Start("gmt_player_inventory_use")
-            net.WriteUInt(idx, 16)
-            net.SendToServer()
-        end
-
-        local dropButton = vgui.Create( "DButton", itemPanel )
-        dropButton:SetPos( buttonWidth, itemSize - buttonHeight )
-        dropButton:SetText( "Drop" )
-        dropButton:SetSize( buttonWidth, buttonHeight )
-        dropButton.DoClick = function()
-            net.Start("gmt_player_inventory_drop")
             net.WriteUInt(idx, 16)
             net.SendToServer()
         end
@@ -255,19 +199,9 @@ function scoreboard:show()
         end
     end
 
-    function scoreboard:hide()
-        scoreboard.isOpen = false
+    function questmenu:hide()
+        questmenu.isOpen = false
         -- Here you put how to hide it, eg Base:Remove()
         DPanel:Remove()
     end
-end
-
-function GM:ScoreboardShow()
-    --if(LocalPlayer():Alive()) then
-        scoreboard:show()
-    --end
-end
-
-function GM:ScoreboardHide()
-    scoreboard:hide()
 end

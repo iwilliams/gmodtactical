@@ -36,7 +36,10 @@ hook.Add( "PlayerFootstep", "PlayerModelFootstep", function( ply, pos, foot, sou
     end
 end )
 
-
+--local function up( ply, ent )
+    --return true
+--end
+--hook.Add( "AllowPlayerPickup", "some_unique_name", up )
 
 -- table.filter({"a", "b", "c", "d"}, function(o, k, i) return o >= "c" end)  --> {"c","d"}
 -- --
@@ -207,6 +210,7 @@ function GMT:ScheduleDespawn(ent)
         if not ent:IsValid() then return end
         local owner = ent:GetOwner()
         if ent:IsValid() and not owner:IsValid() then
+            print( "REMOVE" )
             ent:Remove()
         end
     end)
