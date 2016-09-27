@@ -16,5 +16,17 @@ GMT_ITEMS = {
             sound.Play("items/smallmedkit1.wav", ply:GetPos())
             return true
         end
+    },
+    dog_tag_rebel = {
+        model = "models/dogtag/dtag_b.mdl",
+        onUse = function( ply )
+
+        end
+    },
+    dog_tag_combine = {
+        model = "models/dogtag/dtag_r.mdl",
+        onUse = function( ply )
+
+        end
     }
 }

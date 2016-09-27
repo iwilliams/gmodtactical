@@ -21,6 +21,6 @@ function ENT:OnTakeDamage(dmg)
     randomWep:SetPos( pos )
     randomWep:Spawn()
 
-    GMT:ScheduleDespawn(randomWep)
+    --GMT:ScheduleDespawn(randomWep)
     self:Remove()
 end

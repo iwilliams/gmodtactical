@@ -152,7 +152,7 @@ hook.Add( "PlayerCanPickupWeapon", "checkWeaponPickup", function( ply, wep )
     for k, v in pairs( playerWeapons ) do
         if has_value(GMT[newWepType], v:GetClass()) then
             ply:DropWeapon( v )
-            GMT:ScheduleDespawn(v)
+            --GMT:ScheduleDespawn(v)
         end
     end
 
@@ -206,14 +206,14 @@ end
 
 function GMT:ScheduleDespawn(ent)
     --timer.Simple(2, function()
-    timer.Simple(GMT.WeaponDespawn, function()
-        if not ent:IsValid() then return end
-        local owner = ent:GetOwner()
-        if ent:IsValid() and not owner:IsValid() then
-            print( "REMOVE" )
-            ent:Remove()
-        end
-    end)
+    --timer.Simple(GMT.WeaponDespawn, function()
+        --if not ent:IsValid() then return end
+        --local owner = ent:GetOwner()
+        --if ent:IsValid() and not owner:IsValid() then
+            --print( "REMOVE" )
+            --ent:Remove()
+        --end
+    --end)
 end
 
 function GMT:NPCGetFaction ( npc )
