@@ -24,7 +24,9 @@ function ENT:Initialize()
 
         self:Freeze()
 
+        self.isRewarding = false
 
+        self:SpawnItem()
     else
 
         -- Reset material and panel and load DHTML panel
@@ -32,13 +34,19 @@ function ENT:Initialize()
         self.Panel = nil
         self:OpenPage()
 
-        PrintTable( self:GetMaterials() )
+        self:RequestSync()
     end
 end
 
 function ENT:Freeze()
     local phys = self:GetPhysicsObject()
     if ( IsValid( phys ) ) then phys:EnableMotion( false ) end
+end
+
+function ENT:RequestSync()
+    net.Start("job_board_request")
+        net.WriteEntity(self)
+    net.SendToServer()
 end
 
 -- Load the DHTML reference panel
@@ -66,7 +74,7 @@ function ENT:OpenPage()
     -- Load the wiki page
     self.Panel:OpenURL( url )
     print(util.TableToJSON( self.Jobs ))
-    self.Panel:Call( [[ updateJobs(']] .. util.TableToJSON( self.Jobs ) .. [[') ]] )
+    --self.Panel:Call( [[ updateJobs(']] .. util.TableToJSON( self.Jobs ) .. [[') ]] )
     --self.Panel:Call( [[ window.updateJobs('[{"name": "test"}]') ]] )
 
     -- Hide the panel

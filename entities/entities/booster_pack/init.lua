@@ -21,6 +21,23 @@ function ENT:OnTakeDamage(dmg)
     randomWep:SetPos( pos )
     randomWep:Spawn()
 
+    self:SetUseType(SIMPLE_USE)
+
     --GMT:ScheduleDespawn(randomWep)
     self:Remove()
+end
+
+function ENT:Use(activator, caller)
+    print( activator, caller )
+
+    for _, weapon in pairs( caller:GetWeapons() ) do
+        print( weapon:GetClass() )
+        if weapon:GetClass() == "weapon_empty_hands" then
+            activator:SetActiveWeapon( weapon )
+        end
+    end
+
+    timer.Simple(.1, function()
+        activator:PickupObject( self )
+    end)
 end
