@@ -46,6 +46,11 @@ function ENT:AcceptInput(inputName, activator, called, data )
         crate1:SetPos(spawnPos)
         crate1:Spawn()
 
+        spawnPos:Add( Vector(0, 0, 80) )
+        local crate2 = ents.Create("booster_pack")
+        crate2:SetPos(spawnPos)
+        crate2:Spawn()
+
         self:EmitSound( "buttons/button24.wav", 75, 100, 1, CHAN_AUTO )
 
         timer.Simple(2, function()

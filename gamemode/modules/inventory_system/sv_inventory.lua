@@ -62,16 +62,16 @@ hook.Add("PlayerDeath", "gmt_player_inventory_death", function ( victim, inflict
         testItem:Spawn()
     end
 
-    if victim.Factions.rebel > 0 || victim.Factions.combine > 0 then
-        local dogtag = ents.Create( "inventory_item" )
-        if victim.Factions.rebel > 0 then
-            dogtag:SetItem( "dog_tag_rebel" )
-        elseif victim.Factions.combine > 0 then
-            dogtag:SetItem( "dog_tag_combine" )
-        end
-        dogtag:SetPos( victim:GetPos() )
-        dogtag:Spawn()
-    end
+    --if victim.Factions.rebel > 0 || victim.Factions.combine > 0 then
+        --local dogtag = ents.Create( "inventory_item" )
+        --if victim.Factions.rebel > 0 then
+            --dogtag:SetItem( "dog_tag_rebel" )
+        --elseif victim.Factions.combine > 0 then
+            --dogtag:SetItem( "dog_tag_combine" )
+        --end
+        --dogtag:SetPos( victim:GetPos() )
+        --dogtag:Spawn()
+    --end
 
     victim.Inventory = {}
     UpdatePlayerInventory( victim )
